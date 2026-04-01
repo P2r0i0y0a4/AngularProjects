@@ -1,0 +1,15 @@
+.go{
+    color: green;
+    border-color: black;
+    background-color: black;
+}
+.wait{
+    color : yellow;
+    border-color: black;
+    background-color: black;
+}
+.stop{
+    color: red;
+    border-color: black;
+    background-color: black;
+}

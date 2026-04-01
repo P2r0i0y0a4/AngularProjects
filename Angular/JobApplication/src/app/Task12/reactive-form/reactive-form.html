@@ -1,0 +1,66 @@
+<!-- <p>reactive-form works!</p> -->
+<section class="h-screen flex justify-center items-center bg-cover bg-center"
+    style="background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0TtNbvx4RYoSLghj4_l9ju5GD0x8089qf4Q&s')">
+
+    <div class=" p-6 rounded-2xl shadow-2xl w-100 bg-white/20 backdrop-blur-lg  bg-transparent ">
+
+        <form [formGroup]="form" (ngSubmit)="handlesubmit()" class="space-y-4">
+
+            <h1 class="text-2xl text-blue-950 font-bold text-center">
+                Reactive Form
+            </h1>
+
+            <input type="text" placeholder="First Name" formControlName="firstname"
+                class="bg-blue-200 w-full p-2 rounded-xl" />
+            @if(form.controls.firstname.errors?.['required'] && name?.touched){
+                <p class="text-sm text-red-600">First Name is required</p>
+            }
+            @if(name?.errors?.['minlength']){
+                <p class="text-sm text-red-500">First Name should be atleast 4 characters</p>
+            }
+
+            <input type="text" placeholder="Last Name" formControlName="lastname"
+                class="bg-blue-200 w-full p-2 rounded-xl" />
+             @if(form.controls.lastname.errors?.['required'] && lname?.touched){
+                <p class="text-sm text-red-600"> Last Name is required</p>
+            }
+            @if(form.controls.lastname.errors?.['maxlength']){
+                <p class="text-sm text-red-500">Last Name should be less than 2 characters</p>
+            }
+
+            <div class="p-2">
+                <label for="" class="block font-semibold mb-1 ">Gender : </label>
+                @for(gender of genderData;track gender.value){
+                <input type="radio" [value]="gender.value" formControlName="gender">{{gender.label}}
+                }
+            </div>
+
+             <div class="p-2 mb-3">
+                <label for="" class="block font-semibold mb-1">Subjects : </label>
+                @for(subject of subjectData;track subject.value){
+                <input type="checkbox" [value]="subject.value" (change)="handleChange($event)">{{subject.name}}
+                }
+            </div>
+
+            <input type="text" placeholder="Email" formControlName="email" class="bg-blue-200 w-full p-2 rounded-xl" />
+            @if(form.controls.email.errors?.['email']){
+                <p class="text-sm text-red-500">Enter the valid email</p>
+            }
+            @if(form.controls.email.errors?.['required'] && form.controls.email.touched){
+                 <p class="text-sm text-red-500">Email is required</p>
+            }
+
+            <input type="password" placeholder="Password" formControlName="password"
+                class="bg-blue-200 w-full p-2 rounded-xl" />
+
+            <div class="flex justify-center">
+                <button type="submit" class="bg-blue-800 text-white px-6 py-1 rounded-xl">
+                    Submit
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</section>

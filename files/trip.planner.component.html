@@ -1,0 +1,216 @@
+<!-- trip.planner.component.html -->
+
+<div class="max-w-[1040px] mx-auto px-6 py-8 grid gap-8 items-start"
+  style="grid-template-columns:1fr 330px">
+
+  <!-- ══ FORM CARD ══ -->
+  <div class="bg-white rounded-[20px] p-[2.2rem] shadow-[0_2px_16px_rgba(22,18,14,.09)]">
+
+    <div class="mb-7">
+      <a routerLink="/" class="text-[#1a6b9e] no-underline text-[13px]">← Back</a>
+      <h2 class="mt-2 mb-1" style="font-family:'Cormorant Garamond',serif;font-size:1.8rem">Plan a New Trip ✈️</h2>
+      <p class="text-[#8a7f74] text-sm m-0">Fill in the details and build your adventure</p>
+    </div>
+
+    <form [formGroup]="tripForm" (ngSubmit)="onSubmit()">
+
+      <!-- Trip Type -->
+      <div class="mb-5">
+        <label class="block text-xs font-semibold text-[#8a7f74] uppercase tracking-[.05em] mb-[5px]">Trip Type</label>
+        <div class="grid grid-cols-4 gap-2">
+          @for (type of tripTypes; track type.value) {
+            <button type="button" (click)="selectedType.set(type.value)"
+              class="border-[1.5px] rounded-[10px] py-2.5 px-1.5 cursor-pointer text-center text-xs font-medium transition-all font-[DM_Sans,sans-serif]"
+              [class]="selectedType() === type.value
+                ? 'bg-[#e5f1f9] border-[#1a6b9e] text-[#1a6b9e]'
+                : 'bg-[#f7f2ea] border-[#ddd3c2] text-[#3d3529] hover:border-[#1a6b9e] hover:text-[#1a6b9e]'">
+              <span class="block text-[1.4rem] mb-1">{{ type.icon }}</span>
+              {{ type.label }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Title -->
+      <div class="mb-5">
+        <label class="block text-xs font-semibold text-[#8a7f74] uppercase tracking-[.05em] mb-[5px]">Trip Title *</label>
+        <input type="text" formControlName="title" placeholder="e.g. Paris Dream Escape"
+          class="w-full px-3.5 py-[11px] border-[1.5px] rounded-lg text-sm bg-white text-[#16120e] outline-none transition-colors font-[DM_Sans,sans-serif]"
+          [class]="isInvalid('title') ? 'border-[#d4581a]' : 'border-[#ddd3c2] focus:border-[#1a6b9e]'" />
+        @if (isInvalid('title')) {
+          <span class="text-xs text-[#d4581a] mt-1 block">
+            @if (hasError('title','required')) { Title is required. }
+            @if (hasError('title','minlength')) { Minimum 3 characters. }
+          </span>
+        }
+      </div>
+
+      <!-- Destination -->
+      <div class="mb-5">
+        <label class="block text-xs font-semibold text-[#8a7f74] uppercase tracking-[.05em] mb-[5px]">Destination *</label>
+        <input type="text" formControlName="destination" placeholder="e.g. Paris, France"
+          class="w-full px-3.5 py-[11px] border-[1.5px] rounded-lg text-sm bg-white text-[#16120e] outline-none transition-colors font-[DM_Sans,sans-serif]"
+          [class]="isInvalid('destination') ? 'border-[#d4581a]' : 'border-[#ddd3c2] focus:border-[#1a6b9e]'" />
+        @if (isInvalid('destination')) {
+          <span class="text-xs text-[#d4581a] mt-1 block">Destination is required.</span>
+        }
+      </div>
+
+      <!-- Dates -->
+      <div class="grid grid-cols-2 gap-3 mb-5">
+        <div>
+          <label class="block text-xs font-semibold text-[#8a7f74] uppercase tracking-[.05em] mb-[5px]">Start Date *</label>
+          <input type="date" formControlName="startDate"
+            class="w-full px-3.5 py-[11px] border-[1.5px] rounded-lg text-sm bg-white text-[#16120e] outline-none transition-colors font-[DM_Sans,sans-serif]"
+            [class]="isInvalid('startDate') ? 'border-[#d4581a]' : 'border-[#ddd3c2] focus:border-[#1a6b9e]'" />
+          @if (isInvalid('startDate')) {
+            <span class="text-xs text-[#d4581a] mt-1 block">Required.</span>
+          }
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-[#8a7f74] uppercase tracking-[.05em] mb-[5px]">End Date *</label>
+          <input type="date" formControlName="endDate"
+            class="w-full px-3.5 py-[11px] border-[1.5px] rounded-lg text-sm bg-white text-[#16120e] outline-none transition-colors font-[DM_Sans,sans-serif]"
+            [class]="isInvalid('endDate') ? 'border-[#d4581a]' : 'border-[#ddd3c2] focus:border-[#1a6b9e]'" />
+          @if (isInvalid('endDate')) {
+            <span class="text-xs text-[#d4581a] mt-1 block">
+              @if (hasError('endDate','required')) { Required. }
+              @if (hasError('endDate','dateRange')) { Must be after start date. }
+            </span>
+          }
+        </div>
+      </div>
+
+      <!-- Duration pill -->
+      @if (tripDuration() > 0) {
+        <div class="inline-flex items-center gap-1.5 bg-[#e5f1f9] text-[#1a6b9e] px-3.5 py-1.5 rounded-[20px] text-[13px] font-semibold mb-5">
+          📅 {{ tripDuration() }} day{{ tripDuration() > 1 ? 's' : '' }} trip
+        </div>
+      }
+
+      <!-- Budget + Currency -->
+      <div class="grid mb-5" style="grid-template-columns:2fr 1fr;gap:12px">
+        <div>
+          <label class="block text-xs font-semibold text-[#8a7f74] uppercase tracking-[.05em] mb-[5px]">Budget *</label>
+          <input type="number" formControlName="budget" placeholder="e.g. 50000"
+            class="w-full px-3.5 py-[11px] border-[1.5px] rounded-lg text-sm bg-white text-[#16120e] outline-none transition-colors font-[DM_Sans,sans-serif]"
+            [class]="isInvalid('budget') ? 'border-[#d4581a]' : 'border-[#ddd3c2] focus:border-[#1a6b9e]'" />
+          @if (isInvalid('budget')) {
+            <span class="text-xs text-[#d4581a] mt-1 block">Enter a valid amount.</span>
+          }
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-[#8a7f74] uppercase tracking-[.05em] mb-[5px]">Currency</label>
+          <select formControlName="currency"
+            class="w-full px-3.5 py-[11px] border-[1.5px] border-[#ddd3c2] rounded-lg text-sm bg-white text-[#16120e] outline-none font-[DM_Sans,sans-serif] focus:border-[#1a6b9e]">
+            @for (c of currencies; track c.code) {
+              <option [value]="c.symbol">{{ c.symbol }} {{ c.code }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <!-- Moods -->
+      <div class="mb-5">
+        <label class="block text-xs font-semibold text-[#8a7f74] uppercase tracking-[.05em] mb-[5px]">Trip Vibes</label>
+        <div class="flex gap-2 flex-wrap">
+          @for (mood of moods; track mood) {
+            <span (click)="toggleMood(mood)"
+              class="px-[13px] py-1.5 rounded-[20px] border-[1.5px] text-[12.5px] cursor-pointer transition-all select-none"
+              [class]="selectedMoods().includes(mood)
+                ? 'bg-[#fdeee6] border-[#d4581a] text-[#d4581a]'
+                : 'bg-[#f7f2ea] border-[#ddd3c2] text-inherit hover:border-[#d4581a]'">
+              {{ mood }}
+            </span>
+          }
+        </div>
+      </div>
+
+      <!-- Companions -->
+      <div class="mb-5">
+        <label class="block text-xs font-semibold text-[#8a7f74] uppercase tracking-[.05em] mb-[5px]">Travelling With</label>
+        <select formControlName="companions"
+          class="w-full px-3.5 py-[11px] border-[1.5px] border-[#ddd3c2] rounded-lg text-sm bg-white text-[#16120e] outline-none font-[DM_Sans,sans-serif] focus:border-[#1a6b9e]">
+          @for (opt of companionOptions; track opt) {
+            <option [value]="opt">{{ opt }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Form status -->
+      @if (tripForm.dirty) {
+        <div class="px-3.5 py-2.5 rounded-lg text-[13px] mb-4"
+          [class]="tripForm.valid ? 'bg-[#e5f4ec] text-[#2d7a50]' : 'bg-[#fdeee6] text-[#d4581a]'">
+          {{ tripForm.valid ? '✅ Ready to create!' : '⚠️ Please fix errors above.' }}
+        </div>
+      }
+
+      <!-- Actions -->
+      <div class="flex gap-3 justify-end mt-6">
+        <button type="button" (click)="resetForm()"
+          class="bg-[#f7f2ea] border-none px-[22px] py-[11px] rounded-full text-sm font-semibold cursor-pointer text-[#3d3529] font-[DM_Sans,sans-serif]">
+          Reset
+        </button>
+        <button type="submit" [disabled]="tripForm.invalid || isSubmitting()"
+          class="bg-[#16120e] border-none px-7 py-[11px] rounded-full text-sm font-semibold cursor-pointer text-[#f7f2ea] transition-all font-[DM_Sans,sans-serif] hover:bg-[#d4581a] disabled:opacity-40 disabled:cursor-not-allowed">
+          {{ isSubmitting() ? 'Creating…' : 'Create Trip 🚀' }}
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Success toast -->
+    @if (successMsg()) {
+      <div class="bg-[#e5f4ec] text-[#2d7a50] border border-[rgba(45,122,80,.2)] rounded-lg p-3 text-center text-sm mt-4">
+        {{ successMsg() }}
+      </div>
+    }
+  </div>
+
+  <!-- ══ PREVIEW PANEL ══ -->
+  <div class="sticky top-20">
+    <p class="text-[11.5px] font-semibold tracking-[.07em] uppercase text-[#8a7f74] mb-2.5">Live Preview</p>
+
+    <div class="bg-white rounded-[14px] overflow-hidden shadow-[0_2px_16px_rgba(22,18,14,.09)] mb-5">
+      <div class="h-[125px] flex items-end p-3.5 transition-[background_.5s]" [style.background]="previewGradient()">
+        <span class="text-white text-[1.1rem] font-semibold" style="font-family:'Cormorant Garamond',serif;text-shadow:0 1px 4px rgba(0,0,0,.4)">
+          {{ tripForm.get('destination')?.value || 'Your Destination' }}
+        </span>
+      </div>
+      <div class="p-4">
+        <h4 class="text-[1rem] mb-[5px]">{{ tripForm.get('title')?.value || 'Trip Title' }}</h4>
+        <p class="text-[13px] text-[#8a7f74] mb-[3px]">{{ selectedType() }}</p>
+        @if (tripForm.get('startDate')?.value) {
+          <p class="text-[13px] text-[#8a7f74] mb-[3px]">
+            📅 {{ tripForm.get('startDate')?.value }} → {{ tripForm.get('endDate')?.value }}
+          </p>
+        }
+        @if (tripForm.get('budget')?.value) {
+          <p class="text-[13px] text-[#8a7f74] mb-[3px]">
+            💰 {{ tripForm.get('currency')?.value }}{{ tripForm.get('budget')?.value }}
+          </p>
+        }
+        @if (selectedMoods().length > 0) {
+          <div class="flex flex-wrap gap-[5px] mt-1.5">
+            @for (m of selectedMoods(); track m) {
+              <span class="text-[11px] bg-[#fdeee6] text-[#d4581a] px-2 py-[2px] rounded-[10px]">{{ m }}</span>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Tips card -->
+    <div class="bg-[#fdf5e0] rounded-[14px] p-5 border-l-[3px] border-[#b8861b]">
+      <h5 class="text-[13px] font-semibold text-[#b8861b] mb-2.5">💡 Smart Tips</h5>
+      <ul class="list-none p-0 m-0">
+        <li class="text-[13px] text-[#3d3529] mb-1.5 leading-relaxed">✈️ Book flights 6–8 weeks ahead</li>
+        <li class="text-[13px] text-[#3d3529] mb-1.5 leading-relaxed">💰 Buffer 15% for surprises</li>
+        <li class="text-[13px] text-[#3d3529] mb-1.5 leading-relaxed">🛂 Check visa requirements early</li>
+        <li class="text-[13px] text-[#3d3529] mb-1.5 leading-relaxed">📱 Download offline maps</li>
+        <li class="text-[13px] text-[#3d3529] mb-1.5 leading-relaxed">🧳 Pack light — buy there</li>
+      </ul>
+    </div>
+  </div>
+
+</div>

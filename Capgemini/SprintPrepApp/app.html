@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprint & L1 Preparation Charts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .chart-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .chart-section h2 {
+            color: #667eea;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            font-size: 1.8em;
+        }
+        
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .day-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .day-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .day-card.l1 {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .day-header {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 12px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 8px;
+        }
+        
+        .day-date {
+            font-size: 0.9em;
+            opacity: 0.85;
+            margin-bottom: 10px;
+        }
+        
+        .topics {
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+        
+        .topic {
+            margin: 6px 0;
+            padding: 5px 0;
+        }
+        
+        .topic:before {
+            content: "✓ ";
+            font-weight: bold;
+            margin-right: 5px;
+        }
+        
+        .weekly-summary {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .weekly-summary h3 {
+            color: #667eea;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+        
+        .weekly-summary ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .weekly-summary li {
+            margin: 8px 0;
+            color: #333;
+        }
+        
+        .weekly-summary li:before {
+            content: "→ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .tips-section {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .tips-section h3 {
+            color: #ff6b6b;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+        
+        .tips-section ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .tips-section li {
+            margin: 8px 0;
+            color: #333;
+        }
+        
+        .tips-section li:before {
+            content: "💡 ";
+            margin-right: 8px;
+        }
+        
+        .resources {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .resources h3 {
+            color: #1976D2;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+        
+        .resources ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .resources li {
+            margin: 8px 0;
+            color: #333;
+        }
+        
+        .resources li:before {
+            content: "📚 ";
+            margin-right: 8px;
+        }
+        
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+        
+        .difficulty-easy {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .difficulty-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .difficulty-hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .print-button {
+            text-align: center;
+            margin: 40px 0;
+        }
+        
+        .print-button button {
+            background: #667eea;
+            color: white;
+            padding: 12px 30px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .print-button button:hover {
+            background: #764ba2;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .print-button {
+                display: none;
+            }
+            .chart-section {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+        
+        .success-tips {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .success-tips h3 {
+            color: #155724;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+        
+        .success-tips ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .success-tips li {
+            margin: 8px 0;
+            color: #155724;
+        }
+        
+        .success-tips li:before {
+            content: "🎯 ";
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 JEE Full Stack Sprint & L1 Preparation</h1>
+            <p>Structured Learning Plan for DevOps Sprint & L1 Assessment</p>
+        </div>
+        
+        <!-- ==================== DEVOPS SPRINT SECTION ==================== -->
+        <div class="chart-section">
+            <h2>📅 DevOps Sprint Training (April 9-11, 2026)</h2>
+            
+            <div class="weekly-summary">
+                <h3>Sprint Overview</h3>
+                <p style="margin-bottom: 10px;"><strong>Duration:</strong> 3 Days | <strong>Focus:</strong> CI/CD Pipeline, Git, Jenkins, SonarQube</p>
+                <p><strong>Goal:</strong> Master DevOps fundamentals to implement them during Backend & Frontend sprints</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="day-card">
+                    <div class="day-header">📍 Day 1: April 9, 2026</div>
+                    <div class="day-date">DevOps Fundamentals</div>
+                    <div class="topics">
+                        <div class="topic">What is DevOps (Definition & Principles)</div>
+                        <div class="topic">Evolution of DevOps</div>
+                        <div class="topic">Agile vs DevOps (Key Differences)</div>
+                        <div class="topic">DevOps Lifecycle Phases</div>
+                        <div class="topic">DevOps Tools Ecosystem</div>
+                        <div class="topic">Benefits of DevOps</div>
+                        <div class="topic">CI/CD Pipeline Concepts</div>
+                    </div>
+                    <span class="difficulty-badge difficulty-easy">Foundational</span>
+                </div>
+                
+                <div class="day-card">
+                    <div class="day-header">🔧 Day 2: April 10, 2026</div>
+                    <div class="day-date">Git & Jenkins</div>
+                    <div class="topics">
+                        <div class="topic">Git Basics & Version Control</div>
+                        <div class="topic">Git Workflow (Branches, Commits)</div>
+                        <div class="topic">GitHub Setup & Repository Mgmt</div>
+                        <div class="topic">Jenkins Introduction</div>
+                        <div class="topic">Creating Jenkins Jobs</div>
+                        <div class="topic">Jenkins Pipeline with Git</div>
+                    </div>
+                    <span class="difficulty-badge difficulty-medium">Intermediate</span>
+                </div>
+                
+                <div class="day-card">
+                    <div class="day-header">⚙️ Day 3: April 11, 2026</div>
+                    <div class="day-date">Jenkins Advanced & SonarQube</div>
+                    <div class="topics">
+                        <div class="topic">Jenkins Plugins & Extensions</div>
+                        <div class="topic">Maven Integration with Jenkins</div>
+                        <div class="topic">JUnit Testing in Jenkins</div>
+                        <div class="topic">SonarQube Code Quality</div>
+                        <div class="topic">CI/CD Best Practices</div>
+                        <div class="topic">Troubleshooting CI Pipeline</div>
+                    </div>
+                    <span class="difficulty-badge difficulty-hard">Advanced</span>
+                </div>
+            </div>
+            
+            <div class="success-tips">
+                <h3>✨ Sprint Preparation Strategy</h3>
+                <ul>
+                    <li><strong>Day 0 (March 31 - April 8):</strong> Watch DevOps concept videos, understand CI/CD pipeline flow</li>
+                    <li><strong>Installation Ready:</strong> Have Git, Jenkins, Docker installed before Day 1</li>
+                    <li><strong>Hands-on Practice:</strong> Create sample repos, run basic Jenkins jobs daily</li>
+                    <li><strong>Note Taking:</strong> Document configuration steps and troubleshooting solutions</li>
+                    <li><strong>Project Integration:</strong> Plan how to apply these tools in Sprint 3 Backend project</li>
+                </ul>
+            </div>
+            
+            <div class="tips-section">
+                <h3>📌 Key Focus Areas</h3>
+                <ul>
+                    <li>Understand the WHY behind DevOps, not just the HOW</li>
+                    <li>Practice creating a complete CI/CD pipeline from scratch</li>
+                    <li>Learn Jenkins declarative vs scripted pipeline syntax</li>
+                    <li>Implement quality gates with SonarQube</li>
+                    <li>Practice Git workflow with team collaboration scenarios</li>
+                </ul>
+            </div>
+            
+            <div class="resources">
+                <h3>🎓 Learning Resources</h3>
+                <ul>
+                    <li><strong>Git:</strong> Official Git documentation + GitHub guides</li>
+                    <li><strong>Jenkins:</strong> Jenkins official tutorials + Pipeline documentation</li>
+                    <li><strong>SonarQube:</strong> SonarQube community edition setup guide</li>
+                    <li><strong>Practice:</strong> Create a personal project repo, set up CI/CD pipeline</li>
+                    <li><strong>Videos:</strong> Search for "Jenkins CI/CD pipeline tutorial" + "SonarQube integration"</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- ==================== SPRINT 3 & 4 SECTION ==================== -->
+        <div class="chart-section">
+            <h2>💻 Sprint Implementation Phase (April 13 - April 25, 2026)</h2>
+            
+            <div class="weekly-summary">
+                <h3>Sprint Timeline</h3>
+                <p><strong>Sprint 3 (April 13-18):</strong> Backend Implementation using Spring Boot, Hibernate, JPA</p>
+                <p><strong>Sprint 4 (April 20-24):</strong> Frontend Implementation using Angular</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="day-card">
+                    <div class="day-header">🔙 Sprint 3: Backend</div>
+                    <div class="day-date">April 13-18 (6 Days)</div>
+                    <div class="topics">
+                        <div class="topic">Set up Maven project with Git</div>
+                        <div class="topic">Configure Jenkins job for build</div>
+                        <div class="topic">Implement REST APIs (Spring Boot)</div>
+                        <div class="topic">Database integration (JPA/Hibernate)</div>
+                        <div class="topic">Unit testing with JUnit + SonarQube</div>
+                        <div class="topic">Create CI pipeline (Git → Jenkins → Build)</div>
+                    </div>
+                    <span class="difficulty-badge difficulty-hard">Complex</span>
+                </div>
+                
+                <div class="day-card">
+                    <div class="day-header">🎨 Sprint 4: Frontend</div>
+                    <div class="day-date">April 20-24 (5 Days)</div>
+                    <div class="topics">
+                        <div class="topic">Angular project setup with npm</div>
+                        <div class="topic">Version control with Git</div>
+                        <div class="topic">Component development</div>
+                        <div class="topic">HTTP service integration</div>
+                        <div class="topic">Unit testing (Jasmine)</div>
+                        <div class="topic">Deploy to static web server</div>
+                    </div>
+                    <span class="difficulty-badge difficulty-hard">Complex</span>
+                </div>
+            </div>
+            
+            <div class="tips-section">
+                <h3>🎯 DevOps Integration Tips</h3>
+                <ul>
+                    <li>Apply Git branching strategy (feature/bugfix/develop branches)</li>
+                    <li>Create separate Jenkins jobs for build, test, and deploy stages</li>
+                    <li>Automate unit tests to run on every commit</li>
+                    <li>Generate quality reports with SonarQube after each build</li>
+                    <li>Set up notifications for build failures</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- ==================== L1 PREPARATION SECTION ==================== -->
+        <div class="chart-section">
+            <h2>📚 L1 Preparation & Assessment (April 28-30, 2026)</h2>
+            
+            <div class="weekly-summary">
+                <h3>L1 Overview</h3>
+                <p><strong>Duration:</strong> 3 Days Preparation + 1 Day Assessment (April 30)</p>
+                <p><strong>Focus:</strong> Comprehensive review of all topics covered in JEE Full Stack course</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="day-card l1">
+                    <div class="day-header">📖 Day 1: April 28</div>
+                    <div class="day-date">Java Fundamentals Review</div>
+                    <div class="topics">
+                        <div class="topic">Java Core Concepts (OOP, Collections)</div>
+                        <div class="topic">Data Structures (Arrays, Lists, Maps)</div>
+                        <div class="topic">Exception Handling</div>
+                        <div class="topic">Streams & Functional Programming</div>
+                        <div class="topic">File I/O & Serialization</div>
+                    </div>
+                    <span class="difficulty-badge difficulty-medium">Core Review</span>
+                </div>
+                
+                <div class="day-card l1">
+                    <div class="day-header">🗄️ Day 2: April 29 - Part A</div>
+                    <div class="day-date">Database & Framework Review</div>
+                    <div class="topics">
+                        <div class="topic">SQL Queries & Database Design</div>
+                        <div class="topic">JDBC Architecture & Connections</div>
+                        <div class="topic">JPA & Hibernate Mappings</div>
+                        <div class="topic">Spring Core (Beans, DI, IoC)</div>
+                        <div class="topic">Spring Boot Auto-configuration</div>
+                    </div>
+                    <span class="difficulty-badge difficulty-hard">Critical</span>
+                </div>
+                
+                <div class="day-card l1">
+                    <div class="day-header">🌐 Day 2: April 29 - Part B</div>
+                    <div class="day-date">Web & Frontend Review</div>
+                    <div class="topics">
+                        <div class="topic">HTML5 & CSS3 Fundamentals</div>
+                        <div class="topic">JavaScript ES6 & TypeScript</div>
+                        <div class="topic">Angular Concepts & Components</div>
+                        <div class="topic">Forms & Validation</div>
+                        <div class="topic">HTTP & RxJS Observables</div>
+                    </div>
+                    <span class="difficulty-badge difficulty-hard">Critical</span>
+                </div>
+                
+                <div class="day-card l1">
+                    <div class="day-header">🔗 Day 2: April 29 - Part C</div>
+                    <div class="day-date">Advanced Topics Review</div>
+                    <div class="topics">
+                        <div class="topic">Spring MVC & REST APIs</div>
+                        <div class="topic">Spring Data JPA</div>
+                        <div class="topic">Microservices Fundamentals</div>
+                        <div class="topic">Eureka Service Discovery</div>
+                        <div class="topic">Micro Frontend Architecture</div>
+                    </div>
+                    <span class="difficulty-badge difficulty-hard">Critical</span>
+                </div>
+                
+                <div class="day-card l1">
+                    <div class="day-header">✅ Day 3: April 30</div>
+                    <div class="day-date">L1 Assessment Day</div>
+                    <div class="topics">
+                        <div class="topic">Written Exam (Theory & Coding)</div>
+                        <div class="topic">Practical Implementation</div>
+                        <div class="topic">Problem-solving & Debugging</div>
+                        <div class="topic">Time Management</div>
+                        <div class="topic">Final Revision (if time permits)</div>
+                    </div>
+                    <span class="difficulty-badge difficulty-hard">Assessment</span>
+                </div>
+            </div>
+            
+            <div class="success-tips">
+                <h3>🎓 L1 Preparation Strategy</h3>
+                <ul>
+                    <li><strong>Week 1 (Before April 28):</strong> Create comprehensive mind maps for each topic module</li>
+                    <li><strong>Note Organization:</strong> Categorize notes by module: Java, Database, Frameworks, Web, Advanced</li>
+                    <li><strong>Practice Tests:</strong> Solve sample questions from each topic area</li>
+                    <li><strong>Code Practice:</strong> Implement small programs to test practical understanding</li>
+                    <li><strong>Group Discussion:</strong> Discuss doubts with peers on Apr 27-28</li>
+                    <li><strong>Mock Test:</strong> Take full-length mock exam on April 27</li>
+                    <li><strong>Rest Well:</strong> Get proper sleep before assessment day</li>
+                </ul>
+            </div>
+            
+            <div class="tips-section">
+                <h3>📌 L1 Key Topics to Focus</h3>
+                <ul>
+                    <li><strong>Java:</strong> Collections, Streams, Exception handling, Design patterns</li>
+                    <li><strong>Database:</strong> SQL joins, Normalization, Transaction management, JDBC flow</li>
+                    <li><strong>Frameworks:</strong> Spring Bean lifecycle, DI patterns, AOP concepts</li>
+                    <li><strong>REST:</strong> HTTP methods, Status codes, Resource design, Security basics</li>
+                    <li><strong>Angular:</strong> Component lifecycle, Routing, Forms, Services, Dependency Injection</li>
+                    <li><strong>Architecture:</strong> Monolithic vs Microservices, Design principles</li>
+                </ul>
+            </div>
+            
+            <div class="resources">
+                <h3>📚 L1 Study Resources</h3>
+                <ul>
+                    <li><strong>Official Documentation:</strong> Java docs, Spring docs, Angular docs</li>
+                    <li><strong>Course Materials:</strong> All syllabus topics, assignments, case study code</li>
+                    <li><strong>LeetCode/HackerRank:</strong> Practice coding problems (Medium level)</li>
+                    <li><strong>YouTube:</strong> Topic-wise tutorials for weak areas</li>
+                    <li><strong>Past Question Papers:</strong> Practice with similar assessment formats</li>
+                    <li><strong>Peer Learning:</strong> Form study groups, discuss complex topics</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- ==================== DAILY ROUTINE SECTION ==================== -->
+        <div class="chart-section">
+            <h2>⏰ Daily Study Routine (During Preparation)</h2>
+            
+            <div class="tips-section">
+                <h3>📅 Sample Daily Schedule</h3>
+                <ul>
+                    <li><strong>6:00-6:30 AM:</strong> Wake up, exercise, fresh mind</li>
+                    <li><strong>6:30-8:00 AM:</strong> Study Session 1 - Core Concepts (90 min focused)</li>
+                    <li><strong>8:00-8:30 AM:</strong> Breakfast & Light break</li>
+                    <li><strong>8:30-10:30 AM:</strong> Study Session 2 - Deep Dive Topics (120 min)</li>
+                    <li><strong>10:30-11:00 AM:</strong> Short break</li>
+                    <li><strong>11:00-1:00 PM:</strong> Hands-on Coding Practice (120 min)</li>
+                    <li><strong>1:00-2:00 PM:</strong> Lunch & Rest</li>
+                    <li><strong>2:00-4:00 PM:</strong> Study Session 3 - Problem Solving (120 min)</li>
+                    <li><strong>4:00-4:30 PM:</strong> Break & Snack</li>
+                    <li><strong>4:30-6:00 PM:</strong> Study Session 4 - Revision/Practice Tests (90 min)</li>
+                    <li><strong>6:00-7:30 PM:</strong> Evening exercise or hobby</li>
+                    <li><strong>7:30-9:00 PM:</strong> Dinner & Light study or review notes</li>
+                    <li><strong>9:00-10:00 PM:</strong> Plan next day, sleep prep</li>
+                    <li><strong>10:00 PM:</strong> Sleep (8 hours is crucial!)</li>
+                </ul>
+            </div>
+            
+            <div class="success-tips">
+                <h3>🎯 Daily Productivity Tips</h3>
+                <ul>
+                    <li><strong>Time Blocking:</strong> Allocate specific times for each topic</li>
+                    <li><strong>Active Learning:</strong> Write, code, discuss instead of just reading</li>
+                    <li><strong>Pomodoro Technique:</strong> 25-min focused work + 5-min break</li>
+                    <li><strong>Daily Goals:</strong> Set 3-5 specific learning goals each day</li>
+                    <li><strong>Progress Tracking:</strong> Maintain a checklist of covered topics</li>
+                    <li><strong>Error Log:</strong> Document mistakes to avoid repetition</li>
+                    <li><strong>Hydration & Nutrition:</strong> Drink water, eat healthy snacks</li>
+                    <li><strong>Sleep Quality:</strong> No screens 30 min before bed</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- ==================== CHECKLIST SECTION ==================== -->
+        <div class="chart-section">
+            <h2>✅ Pre-Preparation Checklist</h2>
+            
+            <div class="weekly-summary">
+                <h3>Before DevOps Sprint (By April 8)</h3>
+                <ul style="margin-top: 15px;">
+                    <li style="margin: 8px 0;">☐ Install Git, configure user credentials</li>
+                    <li style="margin: 8px 0;">☐ Create GitHub account and understand basic workflow</li>
+                    <li style="margin: 8px 0;">☐ Download and install Jenkins locally</li>
+                    <li style="margin: 8px 0;">☐ Install Maven on your machine</li>
+                    <li style="margin: 8px 0;">☐ Download SonarQube and understand setup</li>
+                    <li style="margin: 8px 0;">☐ Watch 2-3 introductory DevOps videos</li>
+                    <li style="margin: 8px 0;">☐ Set up Java development environment (if not already done)</li>
+                    <li style="margin: 8px 0;">☐ Create sample Maven project with Git repo</li>
+                </ul>
+            </div>
+            
+            <div class="weekly-summary">
+                <h3>After Sprint 4 (By April 27)</h3>
+                <ul style="margin-top: 15px;">
+                    <li style="margin: 8px 0;">☐ Review all Sprint 3 backend code and implementations</li>
+                    <li style="margin: 8px 0;">☐ Review all Sprint 4 frontend code</li>
+                    <li style="margin: 8px 0;">☐ Compile comprehensive topic-wise notes</li>
+                    <li style="margin: 8px 0;">☐ Create concept mind maps for difficult topics</li>
+                    <li style="margin: 8px 0;">☐ Practice 10-15 coding questions per day</li>
+                    <li style="margin: 8px 0;">☐ Solve mock L1 assessment questions</li>
+                    <li style="margin: 8px 0;">☐ Clarify doubts with seniors/mentors</li>
+                    <li style="margin: 8px 0;">☐ Take full-length mock test on April 27</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="print-button">
+            <button onclick="window.print()">🖨️ Print This Chart</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idly Kadaai</title>
+    <link rel="shortcut icon" href="./logo.jpg" type="image/x-icon">
+    <style>
+        body{
+        
+        }
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        /* section{
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #d8e2dc ;
+            background-color: #d8e2dc;
+            height: 1000px;
+             background-image: url("idly1.jpg");
+             background-repeat: no-repeat;
+            background-size: cover;
+           
+        }
+        #idly{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #d8e2dc ;
+            background-color: #d8e2dc;
+        }
+        #block{
+            width: 20%;
+            padding: 8%;
+            background-color: rgba(216, 226, 220,0.1);
+        }
+        footer{
+            text-align: center;
+            padding: 20px;
+        } */
+.top{
+    text-align:center;
+    padding:15px;
+    font-size:28px;
+    font-weight:bold;
+    color:white;
+    background-image:url("./header.jpg");
+    background-size:cover;
+}
+
+/* Navbar */
+.navbar{
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    background-color:#d8e2dc;
+    padding:10px;
+}
+
+.logo{
+    width:80px;
+    height:80px;
+    border-radius:10px;
+}
+
+.navbar ul{
+    display:flex;
+    list-style:none;
+    gap:25px;
+    font-weight:500;
+}
+
+.navbar li{
+    cursor:pointer;
+}
+
+.navbar li:hover{
+    color:green;
+}
+
+.navbar input{
+    padding:5px;
+}
+
+.navbar select{
+    padding:5px;
+}
+
+/* Hero Section */
+.hero{
+    height:90vh;
+    background-image:url("./idly1.jpg");
+    background-size:cover;
+    background-position:center;
+}
+
+.overlay{
+    height:100%;
+    background:rgba(0,0,0,0.3);
+    display:flex;
+    align-items:center;
+    padding-left:80px;
+}
+
+.menu-box{
+    background:rgba(255,255,255,0.85);
+    padding:40px;
+    width:300px;
+    border-radius:10px;
+}
+
+.menu-box h1{
+    margin-bottom:15px;
+}
+
+.menu-box ul{
+    list-style:none;
+}
+
+.menu-box li{
+    padding:6px 0;
+}
+
+.menu-box button{
+    margin-top:15px;
+    padding:8px 15px;
+    background-color:green;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.menu-box button:hover{
+    background-color:darkgreen;
+}
+
+/* Footer */
+footer{
+    text-align:center;
+    padding:20px;
+    background-color:#d8e2dc;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <!-- <div style="text-align: center; color: white;border: 2px solid #d8e2dc; height: 40px;align-items: center;font-weight: bolder;padding: 10px; font-size: xx-large; background-image: url(./header.jpg);">Welcome To Idly Kadai</div>
+        <div id="idly">
+        <img src="./idly1.jpg" height="100px" width="100px">
+        <input type="text" placeholder="search" >
+        <div>Home</div>
+        <div>idly story</div>
+        <select name="" id="">
+            <option value="">chef</option>
+            <option value="">waiter</option>
+            <option value="">General Manager</option>
+            <option value="">Assistant Manager</option>
+        </select>
+        <div>open/close</div>
+        <div>delivery</div>
+        <div>Account </div>
+    </div> -->
+
+    <div class="top">Welcome To Idly Kadai</div>
+    <nav class="navbar">
+        <img src="./logo.jpg" class="logo" alt="">
+        <ul>
+            <li>Home</li>
+            <li>Idly Story</li>
+            <li>Open/Close</li>
+            <li>Delivery</li>
+            <li>Account</li>
+        </ul>
+        <select name="" id="">
+            <option value="">chef</option>
+            <option value="">waiter</option>
+            <option value="">General Manager</option>
+            <option value="">Assistant Manager</option>
+        </select>
+    </nav>
+    </header>
+
+<section class="hero">
+    
+     <!-- <div id="block">
+            <h1>Idly Variety</h1><br>
+            <h3>Traditional Idly</h3>
+            <h3>Rava Idly</h3>
+            <h3>Kanchipuram Idly</h3>
+            <h3>Oats Idly</h3>
+            <h3>Vegetable Idly</h3>
+            <h3>Poha Idly</h3>
+            <h3>Mini Idly</h3>
+        </div> -->
+
+        <div class="overlay">
+            <div class="menu-box">
+            <h1>Idly Variety</h1><br>
+            <ul>
+                <li>Traditional Idly</li>
+                <li>Rava Idly</li>
+                <li>Kanchipuram Idly</li>
+                <li>Oats Idly</li>
+                <li>Vegetable Idly</li>
+                <li>Poha Idly</li>
+                <li>Mini Idly</li>
+            </ul>
+            
+        </div>
+
+</section>
+    
+    
+    <footer>
+       <h2>&copy; Designed by Priya | All rights reserved.</h2>
+    </footer>
+   
+</body>
+</html>

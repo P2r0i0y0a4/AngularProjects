@@ -1,0 +1,50 @@
+<!-- <p>demo-form works!</p> -->
+ <section class="h-screen w-full bg-slate-100 mt-20 flex justify-center items-center border-b-slate-300 shadow-lg">
+    <form #myForm = "ngForm" (ngSubmit)="handleSubmit(myForm)" class="bg-white  shadow-lg rounded-xl p-8 w-105 space-x-4">
+        <h1 class="text-4xl font-black text-center text-blue-950">Template-Driven Form</h1>
+
+        <div>
+            <label >First Name : </label>
+            <input type="text"  
+                   name="name1" required
+                   #name1 = "ngModel"
+                   ngModel
+                   class="w-full border p-2 rounded mt-1">
+            @if(name1.invalid && name1.touched){
+                <p class="text-sm text-red-500">first name is required</p>
+            }
+            <label >Last Name : </label>
+            <input type="text"  
+                   name="name2" required
+                   #name2 = "ngModel"
+                   ngModel
+                   class="w-full border p-2 rounded mt-1">
+            @if(name2.invalid && name2.touched){
+                <p class="text-sm text-red-500">last name is required</p>
+            }
+            <label >Email : </label>
+            <input type="email"  
+                   name="email" required
+                   #email = "ngModel"
+                   ngModel
+                   class="w-full border p-2 rounded mt-1">
+            @if(email.invalid && email.touched){
+                <p class="text-sm text-red-500">email is required</p>
+            }
+
+            <label >Password : </label>
+            <input type="password"  
+                   name="pwd" required
+                   #pwd = "ngModel"
+                   ngModel
+                   class="w-full border p-2 rounded mt-1">
+            @if(pwd.invalid && pwd.touched){
+                <p class="text-sm text-red-500">password is required</p>
+            }
+            
+        </div>
+        <div>
+            <button type="submit" class="bg-blue-600 rounded text-2xl text-white p-2 mt-3">Submit</button>
+        </div>
+    </form>
+ </section>

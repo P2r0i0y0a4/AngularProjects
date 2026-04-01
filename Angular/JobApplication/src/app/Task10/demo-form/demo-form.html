@@ -1,0 +1,99 @@
+<!-- <p>demo-form works!</p> -->
+<section class="h-screen w-full bg-slate-100 mt-20 flex justify-center items-center shadow-lg">
+
+<form #myForm="ngForm"
+      (ngSubmit)="handleSubmit(myForm)"
+      class="bg-white shadow-xl rounded-xl p-8 w-[420px] space-y-4">
+
+<h1 class="text-3xl font-black text-center text-blue-950 mb-4">
+Contact Us
+</h1>
+
+<!-- First Name -->
+<div>
+<label>First Name</label>
+<input type="text"
+       name="firstName"
+       ngModel
+       required
+       #firstName="ngModel"
+       class="w-full border p-2 rounded mt-1">
+
+@if(firstName.invalid && firstName.touched){
+<p class="text-red-500 text-sm">First Name is required</p>
+}
+</div>
+
+<!-- Last Name -->
+<div>
+<label>Last Name</label>
+<input type="text"
+       name="lastName"
+       ngModel
+       required
+       #lastName="ngModel"
+       class="w-full border p-2 rounded mt-1">
+
+@if(lastName.invalid && lastName.touched){
+<p class="text-red-500 text-sm">Last Name is required</p>
+}
+</div>
+
+<!-- Email -->
+<div>
+<label>Email</label>
+<input type="email"
+       name="email"
+       ngModel
+       required
+       #email="ngModel"
+       class="w-full border p-2 rounded mt-1">
+
+@if(email.invalid && email.touched){
+<p class="text-red-500 text-sm">Valid Email required</p>
+}
+</div>
+
+<!-- Subject -->
+<div>
+<label>Subject</label>
+<input type="text"
+       name="subject"
+       ngModel
+       required
+       #subject="ngModel"
+       class="w-full border p-2 rounded mt-1">
+
+@if(subject.invalid && subject.touched){
+<p class="text-red-500 text-sm">Subject is required</p>
+}
+</div>
+
+<!-- Message -->
+<div>
+<label>Message</label>
+<textarea name="message"
+          ngModel
+          required
+          rows="4"
+          #message="ngModel"
+          class="w-full border p-2 rounded mt-1"></textarea>
+
+@if(message.invalid && message.touched){
+<p class="text-red-500 text-sm">Message cannot be empty</p>
+}
+</div>
+
+<!-- Submit -->
+<button
+type="submit"
+[disabled]="myForm.invalid"
+class="w-full bg-blue-600 text-white p-2 rounded-lg text-lg hover:bg-blue-700 disabled:bg-gray-400">
+
+Send Message
+
+</button>
+
+</form>
+
+</section>

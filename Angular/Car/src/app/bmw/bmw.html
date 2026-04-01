@@ -1,0 +1,46 @@
+<!-- <p>bmw works!</p>
+<section>
+    <h1 class="text-2xl font-bold">DIGITAL FLEET</h1>
+</section>
+<section class="w-full h-screen p-4">
+    <nav class="flex justify-end gap-6 h-20 w-full p-5 text-gray-500 text-1xl border border-white shadow-2xl shadow-md">
+        <a href="" class="underline">INVENTORY</a>
+        <a href="">ANALYTICS</a>
+        <a href="">SETTINGS</a>
+    </nav>
+</section> -->
+
+<section class="flex items-center justify-between bg-white h-20 w-full shadow-lg px-10">
+
+    <!-- Left Side -->
+    <span class="font-extrabold text-2xl">
+        <span class="border-3 rounded-full border-blue-900 text-[15px] px-1 py-4 mr-2">BMW</span>
+        DIGITAL FLEET
+    </span>
+
+    <!-- Right Side -->
+    <nav class="flex gap-6 text-gray-500 font-bold">
+        <a href="" class="underline underline-offset-8 text-blue-800">INVENTORY</a>
+        <a href="">ANALYTICS</a>
+        <a href="">SETTINGS</a>
+    </nav>
+
+</section>
+
+
+<section class="p-10 bg-gray-100">
+  <!-- Section Title -->
+  <h2 class="text-2xl font-bold mb-2">Vehicle Selection</h2>
+
+  <!-- Supporting text -->
+  <p class="text-gray-600 mb-6">
+    Showing {{ carsDetails.length }} high-performance models available for lease.
+  </p>
+
+  <!-- Car Grid -->
+  <div class="grid grid-cols-3 gap-10 content-start">
+    @for(car of carsDetails; track $index){
+      <app-bmw-card [car]="car"></app-bmw-card>
+    }
+  </div>
+</section>

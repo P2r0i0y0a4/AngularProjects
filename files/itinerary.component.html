@@ -1,0 +1,322 @@
+<!-- itinerary.component.html -->
+
+@if (trip(); as t) {
+  <div class="max-w-[880px] mx-auto pb-12">
+
+    <!-- ══ HERO ══ -->
+    <div class="h-[250px] bg-cover bg-center relative overflow-hidden rounded-b-[22px]"
+      [style.background-image]="'url(' + t.coverImage + ')'">
+      <div class="absolute inset-0 flex flex-col justify-between p-6"
+        style="background:linear-gradient(to top,rgba(22,18,14,.8) 0%,rgba(22,18,14,.1) 100%)">
+
+        <button routerLink="/"
+          class="self-start bg-white/15 border-none text-white/85 px-3.5 py-[7px] rounded-[20px] text-[13px] cursor-pointer transition-colors hover:bg-white/[0.28] font-[DM_Sans,sans-serif]">
+          ← All Trips
+        </button>
+
+        <div class="text-white">
+          <div class="flex gap-1.5 flex-wrap mb-2">
+            @for (mood of t.moods; track mood) {
+              <span class="bg-white/15 text-white/90 px-2.5 py-[3px] rounded-xl text-[11.5px]">{{ mood }}</span>
+            }
+          </div>
+          <h1 class="text-[1.9rem] mb-1" style="font-family:'Cormorant Garamond',serif">{{ t.title }}</h1>
+          <p class="text-[13.5px] opacity-80 my-[2px]">📍 {{ t.destination }} | {{ t.companions }} | {{ t.type }}</p>
+          <p class="text-[13.5px] opacity-80 my-[2px]">📅 {{ t.startDate | date:'MMM d' }} – {{ t.endDate | date:'MMM d, y' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ FEATURE TABS ══ -->
+    <div class="flex bg-white mx-6 mt-4 rounded-[14px] shadow-[0_2px_12px_rgba(22,18,14,.07)] overflow-hidden">
+      @for (tab of tabs; track tab.id) {
+        <button (click)="activeTab.set(tab.id)"
+          class="flex-1 border-none py-[13px] px-2 text-[13px] font-medium cursor-pointer transition-all border-b-[2.5px] font-[DM_Sans,sans-serif]"
+          [class]="activeTab() === tab.id
+            ? 'text-[#1a6b9e] border-b-[#1a6b9e] bg-[#e5f1f9]'
+            : 'text-[#8a7f74] border-b-transparent bg-transparent hover:text-[#16120e] hover:bg-[#f7f2ea]'">
+          {{ tab.label }}
+        </button>
+      }
+    </div>
+
+    <!-- ══ TIMELINE TAB ══ -->
+    @switch (activeTab()) {
+
+      @case ('timeline') {
+        <div class="px-6">
+
+          <!-- Day tabs -->
+          <div class="overflow-x-auto mb-6 pt-4 pb-[2px]">
+            <div class="flex gap-2" style="width:max-content">
+              @for (day of t.days; track day.id; let i = $index) {
+                <button (click)="activeDayIdx.set(i)"
+                  class="border-[1.5px] rounded-[10px] px-[13px] py-2.5 cursor-pointer flex flex-col items-center gap-[2px] min-w-[76px] transition-all font-[DM_Sans,sans-serif] relative"
+                  [class]="activeDayIdx() === i
+                    ? 'bg-[#16120e] border-[#16120e] text-[#f7f2ea]'
+                    : 'bg-white border-[#ddd3c2] text-inherit hover:border-[#1a6b9e]'">
+                  @if (day.activities.length) {
+                    <span class="absolute -top-[7px] -right-[7px] bg-[#d4581a] text-white text-[10px] font-bold w-[18px] h-[18px] rounded-full flex items-center justify-center">
+                      {{ day.activities.length }}
+                    </span>
+                  }
+                  <span class="text-[13px] font-semibold">Day {{ i + 1 }}</span>
+                  <span class="text-[11px] opacity-65">{{ day.date | date:'MMM d' }}</span>
+                </button>
+              }
+            </div>
+          </div>
+
+          <!-- Active day -->
+          @if (t.days[activeDayIdx()]; as activeDay) {
+
+            <!-- Day header -->
+            <div class="flex justify-between items-center mb-5">
+              <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.25rem">{{ activeDay.label }}</h3>
+              <div class="text-[13px] text-[#8a7f74] bg-white px-3 py-1.5 rounded-[20px] shadow-[0_1px_8px_rgba(22,18,14,.07)]">
+                {{ activeDay.weather }}
+              </div>
+            </div>
+
+            <!-- Timeline -->
+            <div class="flex flex-col">
+              @for (act of activeDay.activities; track act.id) {
+                <div class="grid gap-x-3.5" style="grid-template-columns:54px 18px 1fr">
+
+                  <!-- Time -->
+                  <div class="pt-[13px] text-right text-xs font-semibold text-[#8a7f74]">{{ act.time }}</div>
+
+                  <!-- Dot + line -->
+                  <div class="flex flex-col items-center">
+                    <div class="w-[13px] h-[13px] rounded-full mt-[13px] border-[2.5px] border-[#fefcf8] flex-shrink-0 transition-transform group-hover:scale-[1.4]"
+                      style="box-shadow:0 0 0 2px #ddd3c2"
+                      [style.background]="catColors[act.category]"></div>
+                    <div class="flex-1 w-[2px] bg-[#ddd3c2] min-h-[14px]"></div>
+                  </div>
+
+                  <!-- Activity card -->
+                  <div class="bg-white border border-[#ede6d8] rounded-[14px] px-[15px] py-[13px] mb-3
+                    shadow-[0_1px_8px_rgba(22,18,14,.06)] transition-all hover:shadow-[0_4px_16px_rgba(22,18,14,.12)] hover:translate-x-[3px]"
+                    [class.opacity-55]="act.done">
+                    <div class="flex justify-between items-start gap-2">
+                      <div class="flex gap-2.5 items-start">
+                        <span class="text-[1.4rem]">{{ catIcons[act.category] }}</span>
+                        <div>
+                          <div class="text-sm font-semibold text-[#16120e]"
+                            [class.line-through]="act.done" [class.text-[#8a7f74]]="act.done">
+                            {{ act.title }}
+                          </div>
+                          <div class="text-xs text-[#8a7f74] mt-[2px]">📍 {{ act.location }}</div>
+                        </div>
+                      </div>
+                      <div class="flex items-center gap-[5px] flex-shrink-0">
+                        <span class="text-[13px] font-bold text-[#3d3529]">{{ t.currency }}{{ act.cost | number }}</span>
+                        <button class="bg-none border-none cursor-pointer text-[15px] p-1 rounded-md hover:bg-[#e5f4ec]"
+                          (click)="toggleAct(t.id, activeDay.id, act.id)">{{ act.done ? '✅' : '⬜' }}</button>
+                        <button class="bg-none border-none cursor-pointer text-xs px-[7px] py-[5px] rounded-md text-[#8a7f74] transition-all hover:bg-[#fdecea] hover:text-[#d4581a]"
+                          (click)="delAct(t.id, activeDay.id, act.id)">✕</button>
+                      </div>
+                    </div>
+                    @if (act.notes) {
+                      <div class="text-xs text-[#8a7f74] mt-2 pt-2 border-t border-[#ede6d8]">📝 {{ act.notes }}</div>
+                    }
+                  </div>
+                </div>
+              } @empty {
+                <div class="text-center py-8 text-[#8a7f74] bg-[#f7f2ea] rounded-[14px] mb-4 text-sm">
+                  ✨ No activities yet — add one below!
+                </div>
+              }
+            </div>
+
+            <!-- Add activity -->
+            <div class="mt-4">
+              <button (click)="showAddForm.update(v => !v)"
+                class="w-full bg-none border-2 border-dashed border-[#ddd3c2] text-[#1a6b9e] py-3 rounded-[14px] text-sm font-semibold cursor-pointer transition-all font-[DM_Sans,sans-serif] hover:border-[#1a6b9e] hover:bg-[#e5f1f9]">
+                {{ showAddForm() ? '✕ Cancel' : '+ Add Activity' }}
+              </button>
+
+              @if (showAddForm()) {
+                <div class="bg-white rounded-[14px] p-6 mt-2.5 shadow-[0_2px_16px_rgba(22,18,14,.09)]">
+                  <h4 class="mb-4" style="font-family:'Cormorant Garamond',serif;font-size:1.05rem">New Activity</h4>
+                  <form [formGroup]="actForm" (ngSubmit)="addActivity(t.id, activeDay.id)">
+
+                    <div class="grid grid-cols-3 gap-2.5 mb-2.5">
+                      <div class="flex flex-col gap-1">
+                        <label class="text-[11px] font-semibold text-[#8a7f74] uppercase">Time</label>
+                        <input type="time" formControlName="time"
+                          class="px-3 py-[9px] border-[1.5px] border-[#ddd3c2] rounded-lg text-[13px] bg-[#f7f2ea] outline-none focus:border-[#1a6b9e] focus:bg-white font-[DM_Sans,sans-serif]"/>
+                      </div>
+                      <div class="flex flex-col gap-1">
+                        <label class="text-[11px] font-semibold text-[#8a7f74] uppercase">Category</label>
+                        <select formControlName="category"
+                          class="px-3 py-[9px] border-[1.5px] border-[#ddd3c2] rounded-lg text-[13px] bg-[#f7f2ea] outline-none focus:border-[#1a6b9e] focus:bg-white font-[DM_Sans,sans-serif]">
+                          @for (cat of categories; track cat.value) {
+                            <option [value]="cat.value">{{ cat.icon }} {{ cat.label }}</option>
+                          }
+                        </select>
+                      </div>
+                      <div class="flex flex-col gap-1">
+                        <label class="text-[11px] font-semibold text-[#8a7f74] uppercase">Cost</label>
+                        <input type="number" formControlName="cost" min="0"
+                          class="px-3 py-[9px] border-[1.5px] border-[#ddd3c2] rounded-lg text-[13px] bg-[#f7f2ea] outline-none focus:border-[#1a6b9e] focus:bg-white font-[DM_Sans,sans-serif]"/>
+                      </div>
+                    </div>
+
+                    <div class="flex flex-col gap-1 mb-2.5">
+                      <label class="text-[11px] font-semibold text-[#8a7f74] uppercase">Title *</label>
+                      <input type="text" formControlName="title" placeholder="e.g. Visit Eiffel Tower"
+                        class="px-3 py-[9px] border-[1.5px] border-[#ddd3c2] rounded-lg text-[13px] bg-[#f7f2ea] outline-none focus:border-[#1a6b9e] focus:bg-white font-[DM_Sans,sans-serif]"/>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2.5 mb-2.5">
+                      <div class="col-span-2 flex flex-col gap-1">
+                        <label class="text-[11px] font-semibold text-[#8a7f74] uppercase">Location</label>
+                        <input type="text" formControlName="location" placeholder="e.g. Champ de Mars"
+                          class="px-3 py-[9px] border-[1.5px] border-[#ddd3c2] rounded-lg text-[13px] bg-[#f7f2ea] outline-none focus:border-[#1a6b9e] focus:bg-white font-[DM_Sans,sans-serif]"/>
+                      </div>
+                      <div class="flex flex-col gap-1">
+                        <label class="text-[11px] font-semibold text-[#8a7f74] uppercase">Notes</label>
+                        <input type="text" formControlName="notes" placeholder="Any tips?"
+                          class="px-3 py-[9px] border-[1.5px] border-[#ddd3c2] rounded-lg text-[13px] bg-[#f7f2ea] outline-none focus:border-[#1a6b9e] focus:bg-white font-[DM_Sans,sans-serif]"/>
+                      </div>
+                    </div>
+
+                    <div class="flex justify-end gap-2.5 mt-2.5">
+                      <button type="button" (click)="showAddForm.set(false)"
+                        class="bg-[#f7f2ea] border-none px-[18px] py-2.5 rounded-[20px] text-[13.5px] cursor-pointer text-[#3d3529] font-[DM_Sans,sans-serif]">
+                        Cancel
+                      </button>
+                      <button type="submit" [disabled]="actForm.invalid"
+                        class="bg-[#1a6b9e] text-white border-none px-[22px] py-2.5 rounded-[20px] text-[13.5px] font-semibold cursor-pointer font-[DM_Sans,sans-serif] disabled:opacity-40 disabled:cursor-not-allowed">
+                        Add Activity
+                      </button>
+                    </div>
+
+                  </form>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      <!-- ══ BUDGET TAB ══ -->
+      @case ('budget') {
+        <div class="px-6 pt-4">
+
+          <!-- Budget strip -->
+          <div class="flex gap-6 bg-white rounded-[14px] px-6 py-4 shadow-[0_2px_12px_rgba(22,18,14,.07)] flex-wrap items-center mb-5">
+            <div class="flex flex-col">
+              <span class="text-[11px] text-[#8a7f74] uppercase tracking-[.05em]">Total Budget</span>
+              <span class="text-[1.05rem] font-bold text-[#16120e]">{{ t.currency }}{{ budget().total | number }}</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-[11px] text-[#8a7f74] uppercase tracking-[.05em]">Spent</span>
+              <span class="text-[1.05rem] font-bold text-[#d4581a]">{{ t.currency }}{{ budget().spent | number }}</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-[11px] text-[#8a7f74] uppercase tracking-[.05em]">Remaining</span>
+              <span class="text-[1.05rem] font-bold"
+                [class]="budget().remaining < 0 ? 'text-[#d4581a]' : 'text-[#2d7a50]'">
+                {{ t.currency }}{{ budget().remaining | number }}
+              </span>
+            </div>
+            <div class="flex-1 min-w-[120px]">
+              <div class="h-2 bg-[#ede6d8] rounded overflow-hidden mb-1">
+                <div class="h-full rounded transition-[width_.5s]"
+                  [style.width.%]="budget().percent"
+                  [class]="{
+                    'bg-[#1a6b9e]': budget().percent < 70,
+                    'bg-[#b8861b]': budget().percent >= 70 && budget().percent < 90,
+                    'bg-[#d4581a]': budget().percent >= 90
+                  }"></div>
+              </div>
+              <span class="text-xs text-[#8a7f74] font-semibold">{{ budget().percent }}% used</span>
+            </div>
+          </div>
+
+          <!-- Category breakdown -->
+          <div class="bg-white rounded-[14px] p-5 shadow-[0_2px_12px_rgba(22,18,14,.07)]">
+            <h4 class="mb-4" style="font-family:'Cormorant Garamond',serif;font-size:1rem">Spending by Category</h4>
+            @for (entry of catSpendEntries(); track entry.cat) {
+              <div class="flex items-center gap-2.5 mb-2.5">
+                <span class="text-[1.1rem] w-7 text-center">{{ catIcons[entry.cat] }}</span>
+                <span class="text-[13px] text-[#3d3529] w-[90px] flex-shrink-0">{{ entry.cat }}</span>
+                <div class="flex-1 h-[6px] bg-[#ede6d8] rounded overflow-hidden">
+                  <div class="h-full rounded transition-[width_.6s]"
+                    [style.width.%]="entry.pct" [style.background]="catColors[entry.cat]"></div>
+                </div>
+                <span class="text-[12.5px] font-semibold text-[#16120e] min-w-[70px] text-right">
+                  {{ t.currency }}{{ entry.amount | number }}
+                </span>
+              </div>
+            } @empty {
+              <p class="text-[#8a7f74] text-sm">No activities with costs yet.</p>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- ══ PACKING TAB ══ -->
+      @case ('packing') {
+        <div class="px-6 pt-4 flex flex-col gap-3">
+          @for (section of objectKeys(t.packingLists); track section) {
+            <div class="bg-white rounded-[14px] p-5 shadow-[0_2px_12px_rgba(22,18,14,.07)]">
+
+              <!-- Section header -->
+              <div class="flex justify-between items-center mb-3">
+                <h4 style="font-family:'Cormorant Garamond',serif;font-size:1rem">{{ section }}</h4>
+                <span class="text-xs text-[#8a7f74]">{{ doneCount(t, section) }}/{{ t.packingLists[section].length }} packed</span>
+              </div>
+
+              <!-- Items -->
+              @for (item of t.packingLists[section]; track item.id) {
+                <div class="flex items-center gap-2.5 py-2 border-b border-[#ede6d8] last:border-b-0">
+                  <div (click)="togglePack(t.id, section, item.id)"
+                    class="w-[18px] h-[18px] border-2 border-[#ddd3c2] rounded-[5px] cursor-pointer flex items-center justify-center flex-shrink-0 transition-all text-[11px]"
+                    [class]="item.done ? 'bg-[#2d7a50] border-[#2d7a50] text-white' : ''">
+                    {{ item.done ? '✓' : '' }}
+                  </div>
+                  <span class="text-[13.5px] flex-1" [class]="item.done ? 'line-through text-[#8a7f74]' : ''">{{ item.label }}</span>
+                  <span class="text-[10.5px] px-[7px] py-[2px] rounded-lg"
+                    [class]="{
+                      'bg-[#fdeee6] text-[#d4581a]': item.priority === 'high',
+                      'bg-[#fdf5e0] text-[#b8861b]': item.priority === 'med',
+                      'bg-[#e5f1f9] text-[#1a6b9e]': item.priority === 'low'
+                    }">{{ item.priority }}</span>
+                  <button (click)="delPack(t.id, section, item.id)"
+                    class="bg-none border-none cursor-pointer text-xs px-[7px] py-[5px] rounded-md text-[#8a7f74] hover:bg-[#fdecea] hover:text-[#d4581a] transition-all">✕</button>
+                </div>
+              }
+
+              <!-- Add item row -->
+              <div class="flex gap-2 mt-3">
+                <input type="text" [id]="'pi-' + section" placeholder="Add item…"
+                  class="flex-1 px-3 py-[9px] border-[1.5px] border-[#ddd3c2] rounded-lg text-[13px] outline-none focus:border-[#1a6b9e] font-[DM_Sans,sans-serif]"/>
+                <select [id]="'pp-' + section"
+                  class="px-2.5 py-[9px] border-[1.5px] border-[#ddd3c2] rounded-lg text-[13px] outline-none font-[DM_Sans,sans-serif]">
+                  <option value="high">🔴 High</option>
+                  <option value="med" selected>🟡 Med</option>
+                  <option value="low">🟢 Low</option>
+                </select>
+                <button (click)="addPackFromRow(t.id, section)"
+                  class="bg-[#1a6b9e] text-white border-none px-4 py-[9px] rounded-lg text-[13px] cursor-pointer font-[DM_Sans,sans-serif]">
+                  + Add
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    }
+
+  </div>
+
+} @else {
+  <!-- Loading -->
+  <div class="text-center py-16 text-[#8a7f74]">
+    <div class="w-9 h-9 border-[3px] border-[#ede6d8] border-t-[#1a6b9e] rounded-full animate-spin mx-auto mb-4"></div>
+    <p>Loading itinerary…</p>
+  </div>
+}

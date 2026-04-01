@@ -1,0 +1,12 @@
+<!-- <p>navbar works!</p> -->
+<nav class="h-20 bg-cyan-800 text-white shadow shadow-amber-200 flex justify-between px-6 items-center">
+    <div>
+        <h1 class="text-3xl">L O G O</h1>
+    </div>
+    <div class="flex gap-10">
+        <a [routerLink]="''" routerLinkActive="text-cyan-300" [routerLinkActiveOptions]="{exact:true}">HOME</a>
+        <a [routerLink]="'about'" routerLinkActive="text-cyan-300"  [routerLinkActiveOptions]="{exact:true}">ABOUT</a>
+        <a [routerLink]="'product'" routerLinkActive="text-cyan-300"  [routerLinkActiveOptions]="{exact:true}">PRODUCT</a>
+        <a [routerLink]="'contact'" routerLinkActive="text-cyan-300"  [routerLinkActiveOptions]="{exact:true}">CONTACT</a>
+    </div>
+</nav>

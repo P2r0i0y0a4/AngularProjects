@@ -1,0 +1,193 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial;
+}
+
+.top-header{
+    text-align:center;
+    padding:15px;
+    font-size:28px;
+    font-weight:bold;
+    background:#588157;
+    color:white;
+}
+
+nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    background:#d8e2dc;
+}
+
+.logo{
+    width:70px;
+}
+
+nav ul{
+    display:flex;
+    gap:20px;
+    list-style:none;
+}
+
+nav a{
+    text-decoration:none;
+    color:black;
+}
+
+.hero{
+    height:80vh;
+    background:url("idly1.jpg") center/cover;
+}
+
+.overlay{
+    background:rgba(0,0,0,0.5);
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    color:white;
+}
+
+button{
+    padding:8px 15px;
+    background:green;
+    color:white;
+    border:none;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+footer{
+    text-align:center;
+    padding:15px;
+    background:#d8e2dc;
+}
+
+/* Menu Cards */
+.menu-container{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    margin-top:40px;
+}
+
+.card{
+    padding:20px;
+    border:1px solid gray;
+    width:200px;
+    text-align:center;
+}
+
+/* Forms */
+.form-box{
+    width:300px;
+    margin:50px auto;
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+input, select{
+    padding:8px;
+}
+
+/* About Page Hero */
+.about-hero{
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                url("idly1.jpg");
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.about-hero h1{
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+/* About Container */
+.about-container{
+    width: 80%;
+    margin: 50px auto;
+}
+
+/* Story Sections */
+.story-section{
+    margin-bottom: 40px;
+    padding: 20px;
+    border-left: 5px solid #588157;
+    background: #f5f5f5;
+    border-radius: 5px;
+}
+
+.story-section h2{
+    margin-bottom: 10px;
+    color: #344e41;
+}
+
+.story-section ul{
+    padding-left: 20px;
+}
+
+/* Highlight Box */
+.highlight{
+    background: #d8e2dc;
+    border-left: 5px solid #2d6a4f;
+    font-weight: 500;
+}
+button{
+    padding:10px 18px;
+    background:#2d6a4f;
+    color:white;
+    border:none;
+    cursor:pointer;
+    border-radius:5px;
+    transition:0.3s ease;
+}
+
+button:hover{
+    background:#1b4332;
+    transform:scale(1.05);
+}
+.card{
+    padding:20px;
+    border:1px solid #ccc;
+    width:200px;
+    text-align:center;
+    transition:0.3s;
+    border-radius:10px;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+nav ul li:hover{
+    color:#2d6a4f;
+    font-weight:bold;
+}
+.gallery{
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    margin-top:30px;
+}
+
+.gallery img{
+    width:250px;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.gallery img:hover{
+    transform:scale(1.1);
+}

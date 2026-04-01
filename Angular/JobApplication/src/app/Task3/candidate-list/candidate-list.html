@@ -1,0 +1,32 @@
+<!-- <p>candidate-list works!</p> -->
+<section class="w-full h-screen bg-blue-100 mt-20">
+    <div class="flex flex-col justify-center items-center">
+        <h1 class="mt-40 text-4xl font-bold">CANDIDATES LIST</h1>
+        <button (click)="showlist()" class="bg-blue-900 text-white p-2 mt-4 text-2xl rounded-2xl">View More</button>
+    </div>
+    @if(showTable){
+        <section class="w-3/4 bg-white shadow-lg rounded-lg overflow-hidden mt-10 ml-45 ">
+            <table class="w-full text-left border-collapse ">
+                <thead class="bg-gray-800 text-white">
+                    <tr>
+                        <th class="px-6 py-3">ID</th>
+                        <th class="px-6 py-3">Name</th>
+                        <th class="px-4 py-3">Role</th>
+                        <th class="px-4 py-3 items-center">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(candidate of candidates ; track $index){
+                        <tr class="border-b hover:bg-gray-100 transition">
+                            <td class="px-6 py-3">{{candidate.id}}</td>
+                            <td class="px-6 py-3">{{candidate.name}}</td>
+                            <td class="px-4 py-3">{{candidate.role}}</td>
+                            <td class="px-4 py-3"><span appHighlights>{{candidate.status}}</span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+    }
+    
+</section>

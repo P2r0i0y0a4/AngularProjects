@@ -1,0 +1,65 @@
+<!-- <p>weather.compare.component works!</p>
+
+<div class="max-w-[960px] mx-auto px-6 py-8">
+
+  <h2 class="mb-1.5" style="font-family:'Cormorant Garamond',serif;font-size:2rem">🌤 Destination Weather</h2>
+  <p class="text-[#8a7f74] text-sm mb-6">Check weather for your trip destinations before you pack</p>
+
+  <!-- Search + trip chips 
+  <div class="flex gap-2.5 flex-wrap mb-6 items-center">
+    <input type="text" class="px-4 py-2.5 border-[1.5px] border-[#ddd3c2] rounded-full text-sm outline-none font-[DM_Sans,sans-serif] min-w-[220px] focus:border-[#1a6b9e]"
+      placeholder="Search destination…" [(ngModel)]="searchQuery" />
+    <div class="flex gap-2 flex-wrap">
+      @for (trip of tripService.trips(); track trip.id) {
+        <button (click)="selectedDest.set(trip.destination)"
+          class="px-[15px] py-2 rounded-full border-[1.5px] text-[13px] cursor-pointer transition-all font-[DM_Sans,sans-serif]"
+          [class]="selectedDest() === trip.destination
+            ? 'bg-[#16120e] border-[#16120e] text-[#f7f2ea]'
+            : 'bg-white border-[#ddd3c2] text-inherit hover:border-[#1a6b9e] hover:text-[#1a6b9e]'">
+          {{ trip.destination }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Hero weather card 
+  <div class="bg-[#16120e] rounded-[22px] px-10 py-10 mb-6 flex justify-between items-center">
+    <div>
+      <h2 class="text-[#f7f2ea] mb-1.5" style="font-family:'Cormorant Garamond',serif;font-size:2rem">
+        {{ selectedDest() }}
+      </h2>
+      <p class="text-[#8a7f74] text-sm m-0">{{ activeTripDateRange() }}</p>
+    </div>
+    <div class="text-right">
+      <div class="text-[#f7f2ea] font-bold" style="font-family:'Cormorant Garamond',serif;font-size:4rem">
+        {{ weather().temp }}
+      </div>
+      <div class="text-[#8a7f74] text-sm">{{ weather().desc }}</div>
+    </div>
+  </div>
+
+  <!-- 7-day forecast 
+  <div class="grid grid-cols-7 gap-2.5 mb-6">
+    @for (day of weather().forecast; track day.day; let i = $index) {
+      <div class="rounded-[14px] px-2.5 py-3.5 text-center shadow-[0_2px_12px_rgba(22,18,14,.07)]"
+        [class]="i === 0 ? 'bg-[#1a6b9e] text-white' : 'bg-white'">
+        <div class="text-xs font-semibold mb-2">{{ i === 0 ? 'Today' : day.day }}</div>
+        <div class="text-[1.8rem] mb-1.5">{{ day.ico }}</div>
+        <div class="text-sm font-semibold">{{ day.h }}</div>
+        <div class="text-xs opacity-60">{{ day.l }}</div>
+      </div>
+    }
+  </div>
+
+  <!-- Detail cards 
+  <div class="grid grid-cols-4 gap-3">
+    @for (d of weatherDetails(); track d.label) {
+      <div class="bg-white rounded-[14px] p-5 text-center shadow-[0_2px_12px_rgba(22,18,14,.07)]">
+        <div class="text-[1.6rem] mb-2">{{ d.ico }}</div>
+        <div class="font-bold mb-1" style="font-family:'Cormorant Garamond',serif;font-size:1.3rem">{{ d.val }}</div>
+        <div class="text-xs text-[#8a7f74]">{{ d.label }}</div>
+      </div>
+    }
+  </div>
+
+</div> -->

@@ -1,0 +1,355 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .serif {
+        font-family: 'Cormorant Garamond', serif;
+    }
+
+    .page {
+        min-height: calc(100vh - 64px);
+        background: #f7f2ea;
+    }
+
+    .card {
+        animation: fadeUp 0.4s ease;
+    }
+
+    @keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .trip-card {
+        transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .trip-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 50px rgba(22, 18, 14, 0.18);
+    }
+
+    .cover-overlay {
+        background: linear-gradient(to top, rgba(22, 18, 14, 0.75) 0%, transparent 55%);
+    }
+
+    .prog-fill {
+        transition: width 0.6s ease;
+    }
+
+    .chip-btn {
+        transition: all 0.2s;
+    }
+
+    .countdown-card {
+        transition: all 0.2s;
+    }
+
+    .countdown-card:hover {
+        background: rgba(255, 255, 255, 0.18) !important;
+        transform: scale(1.02);
+    }
+
+    .search-input {
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: #1a6b9e;
+        box-shadow: 0 0 0 3px rgba(26, 107, 158, 0.1);
+    }
+
+    .view-btn {
+        transition: all 0.15s;
+    }
+
+    .glow-orange {
+        background: radial-gradient(circle, rgba(212, 88, 26, 0.3), transparent 70%);
+    }
+
+    .glow-blue {
+        background: radial-gradient(circle, rgba(26, 107, 158, 0.2), transparent 70%);
+    }
+
+    .stat-card {
+        animation: fadeUp 0.4s ease;
+    }
+
+    .empty-state {
+        animation: fadeUp 0.5s ease;
+    }
+
+    .mood-tag {
+        background: rgba(212, 88, 26, 0.12);
+        color: #d4581a;
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 10px;
+    }
+
+    .badge-upcoming {
+        background: rgba(26, 107, 158, 0.85);
+        color: #fff;
+    }
+
+    .badge-ongoing {
+        background: rgba(45, 122, 80, 0.85);
+        color: #fff;
+    }
+
+    .badge-completed {
+        background: rgba(92, 61, 143, 0.85);
+        color: #fff;
+    }
+
+    .badge-draft {
+        background: rgba(184, 134, 27, 0.85);
+        color: #fff;
+    }
+
+    .row-card {
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .row-card:hover {
+        box-shadow: 0 8px 32px rgba(22, 18, 14, 0.15);
+        transform: translateX(3px);
+    }
+
+    .fab {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 100;
+    }
+
+    .fab button {
+        animation: bounce 1s ease 3;
+    }
+
+    @keyframes bounce {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+</style>
+
+<div class="page font-sans">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+
+        <!-- Header Banner -->
+        <div class="relative bg-stone-950 rounded-3xl overflow-hidden mb-8 p-8 sm:p-10 card">
+           <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'60\' height=\'60\'%3E%3Ccircle cx=\'30\' cy=\'30\' r=\'1\' fill=\'rgba(247,242,234,.07)\'/%3E%3C/svg%3E'); background-size: 60px;"></div>
+            <div class="glow-orange absolute -top-20 -right-20 w-72 h-72 pointer-events-none rounded-full"></div>
+            <div class="glow-blue absolute -bottom-24 left-1/3 w-64 h-64 pointer-events-none rounded-full"></div>
+
+            <div class="relative z-10 flex flex-col sm:flex-row justify-between items-start gap-6">
+                <div>
+                    <h1 class="serif text-4xl sm:text-5xl text-amber-50 font-semibold leading-tight mb-2">
+                        Welcome back,<br>{{ userName() }} 🌍
+                    </h1>
+                    <p class="text-stone-500 text-sm">{{ upcomingCount() }} upcoming adventure{{ upcomingCount() !== 1 ?
+                        's' : '' }} awaiting</p>
+                </div>
+                <div class="flex gap-6 sm:gap-8">
+                    @for (kpi of kpis(); track kpi.label) {
+                    <div class="text-right stat-card">
+                        <span class="serif text-4xl font-bold text-amber-50 block">{{ kpi.value }}</span>
+                        <span class="text-xs text-stone-500 uppercase tracking-wider">{{ kpi.label }}</span>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Countdown strip -->
+            <div class="relative z-10 flex gap-3 mt-6 flex-wrap">
+                @for (t of upcomingTrips(); track t.id) {
+                <div class="countdown-card flex gap-3 items-center bg-white/10 border border-white/15 rounded-xl px-4 py-3 cursor-pointer min-w-48 flex-1"
+                    (click)="openItin(t.id)">
+                    <div class="serif text-4xl font-bold text-orange-400 min-w-12 text-center leading-none">{{
+                        daysUntil(t.startDate) }}</div>
+                    <div>
+                        <p class="text-amber-50 text-sm font-medium">{{ t.title }}</p>
+                        <span class="text-stone-500 text-xs">{{ t.destination }}</span>
+                    </div>
+                </div>
+                }
+                @if (!upcomingTrips().length) {
+                <p class="text-stone-500 text-sm pt-2">No upcoming trips. <a routerLink="/planner"
+                        class="text-orange-400 underline">Plan one now!</a></p>
+                }
+            </div>
+        </div>
+
+        <!-- Controls Row -->
+        <div class="flex flex-wrap gap-3 mb-6 items-center card">
+            <!-- Search -->
+            <div class="relative flex-1 min-w-48">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400">🔍</span>
+                <input
+                    class="search-input w-full pl-10 pr-4 py-3 border-2 border-stone-200 rounded-full text-sm bg-white text-stone-800 placeholder:text-stone-400 font-sans"
+                    type="text" placeholder="Search trips or destinations…" [(ngModel)]="searchQ" />
+            </div>
+            <!-- View toggle -->
+            <div class="flex bg-white border-2 border-stone-200 rounded-full overflow-hidden">
+                <button class="view-btn px-3 py-2 text-lg"
+                    [class]="viewMode === 'grid' ? 'bg-stone-900 text-amber-50' : 'text-stone-500 hover:bg-stone-50'"
+                    (click)="viewMode='grid'">⊞</button>
+                <button class="view-btn px-3 py-2 text-lg"
+                    [class]="viewMode === 'list' ? 'bg-stone-900 text-amber-50' : 'text-stone-500 hover:bg-stone-50'"
+                    (click)="viewMode='list'">☰</button>
+            </div>
+            <!-- Filter chips -->
+            <div class="flex gap-2 flex-wrap">
+                @for (f of filters; track f.value) {
+                <button class="chip-btn px-4 py-2 rounded-full border-2 text-sm font-semibold transition-all"
+                    [class]="activeFilter === f.value ? 'bg-stone-900 border-stone-900 text-amber-50' : 'bg-white border-stone-200 text-stone-600 hover:border-stone-400'"
+                    (click)="activeFilter = f.value">
+                    {{ f.label }}
+                </button>
+                }
+            </div>
+        </div>
+
+        <!-- Trips Grid -->
+        @if (viewMode === 'grid') {
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+            @for (t of filteredTrips(); track t.id) {
+            <div class="trip-card bg-white rounded-2xl overflow-hidden shadow-md cursor-pointer"
+                (click)="openItin(t.id)">
+                <!-- Cover -->
+                <div class="relative h-44" [style.background-image]="'url(' + t.coverImage + ')'"
+                    style="background-size:cover;background-position:center">
+                    <div class="cover-overlay absolute inset-0"></div>
+                    <div class="absolute bottom-3 left-4 right-4 flex justify-between items-end">
+                        <span class="serif text-white text-lg font-semibold drop-shadow">{{ t.destination }}</span>
+                        <span class="text-xs font-bold px-2.5 py-1 rounded-full" [class]="'badge-' + t.status">{{
+                            t.status }}</span>
+                    </div>
+                </div>
+                <!-- Body -->
+                <div class="p-4">
+                    <div class="font-semibold text-stone-800 mb-1">{{ t.title }}</div>
+                    <div class="flex gap-2 flex-wrap text-xs text-stone-500 mb-3">
+                        <span>📅 {{ fmtRange(t.startDate, t.endDate) }}</span>
+                        <span class="bg-stone-100 text-stone-600 px-2 py-0.5 rounded-lg">{{ tripDays(t) }}d</span>
+                        <span class="bg-stone-100 text-stone-600 px-2 py-0.5 rounded-lg">{{ t.type }}</span>
+                    </div>
+                    <!-- Budget bar -->
+                    <div class="mb-3">
+                        <div class="flex justify-between text-xs mb-1">
+                            <span class="text-stone-500">{{ t.currency }}{{ t.budget.toLocaleString() }}</span>
+                            <span class="text-orange-500 font-semibold">Spent: {{ t.currency }}{{
+                                spentOf(t).toLocaleString() }}</span>
+                        </div>
+                        <div class="h-1.5 bg-stone-100 rounded-full overflow-hidden">
+                            <div class="prog-fill h-full rounded-full" [style.width]="pct(t) + '%'"
+                                [style.background]="pct(t) >= 90 ? '#d4581a' : pct(t) >= 70 ? '#b8861b' : '#1a6b9e'">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <div class="flex justify-between items-center">
+                        <button
+                            class="bg-blue-50 text-blue-700 text-xs font-bold px-4 py-1.5 rounded-full hover:bg-blue-600 hover:text-white transition-all"
+                            (click)="$event.stopPropagation(); openItin(t.id)">View →</button>
+                        <div class="flex gap-1">
+                            <button class="text-base p-1.5 rounded-lg hover:bg-stone-100 transition-colors"
+                                (click)="$event.stopPropagation(); goWeather()" title="Weather">🌤</button>
+                            <button
+                                class="text-base p-1.5 rounded-lg hover:bg-red-50 hover:text-red-500 transition-colors"
+                                (click)="$event.stopPropagation(); promptDelete(t.id)">🗑</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            @if (!filteredTrips().length) {
+            <div class="col-span-full empty-state flex flex-col items-center justify-center py-20 text-stone-400">
+                <div class="text-6xl mb-4">🗺️</div>
+                <h3 class="serif text-2xl text-stone-600 mb-2">No trips found</h3>
+                <p class="text-sm mb-4">Try a different filter or search term</p>
+                <a routerLink="/planner"
+                    class="bg-stone-900 text-amber-50 px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-orange-500 transition-colors">Plan
+                    a Trip ✈️</a>
+            </div>
+            }
+        </div>
+        }
+
+        <!-- List view -->
+        @if (viewMode === 'list') {
+        <div class="flex flex-col gap-3">
+            @for (t of filteredTrips(); track t.id) {
+            <div class="row-card bg-white rounded-xl shadow-sm flex items-center gap-4 p-4 cursor-pointer"
+                (click)="openItin(t.id)">
+                <div class="w-16 h-16 rounded-xl flex-shrink-0" [style.background-image]="'url(' + t.coverImage + ')'"
+                    style="background-size:cover;background-position:center"></div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-stone-800 mb-0.5">{{ t.title }}</div>
+                    <div class="text-xs text-stone-500">📍 {{ t.destination }} &nbsp;|&nbsp; 📅 {{ fmtRange(t.startDate,
+                        t.endDate) }} &nbsp;|&nbsp; {{ t.type }}</div>
+                </div>
+                <div class="flex flex-col items-end gap-2">
+                    <span class="text-xs font-bold px-2.5 py-1 rounded-full" [class]="'badge-' + t.status">{{ t.status
+                        }}</span>
+                    <div class="w-24 h-1.5 bg-stone-100 rounded-full overflow-hidden">
+                        <div class="prog-fill h-full rounded-full" [style.width]="pct(t) + '%'"
+                            [style.background]="'#1a6b9e'"></div>
+                    </div>
+                </div>
+                <button class="text-base p-2 rounded-lg hover:bg-red-50 hover:text-red-500 transition-colors"
+                    (click)="$event.stopPropagation(); promptDelete(t.id)">🗑</button>
+            </div>
+            }
+        </div>
+        }
+
+    </div>
+
+    <!-- FAB -->
+    <div class="fab">
+        <a routerLink="/planner">
+            <button
+                class="bg-orange-500 hover:bg-orange-600 text-white text-2xl w-14 h-14 rounded-full shadow-2xl flex items-center justify-center transition-all hover:scale-110"
+                title="New Trip">✈️</button>
+        </a>
+    </div>
+
+    <!-- Delete Modal -->
+    @if (deleteId) {
+    <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center backdrop-blur-sm" (click)="deleteId=''">
+        <div class="bg-white rounded-3xl p-8 max-w-sm w-full mx-4 shadow-2xl" (click)="$event.stopPropagation()">
+            <h3 class="serif text-2xl text-stone-900 mb-2">Delete Trip?</h3>
+            <p class="text-stone-500 text-sm mb-6 leading-relaxed">This action cannot be undone. All itinerary data,
+                activities and packing lists will be permanently removed.</p>
+            <div class="flex gap-3 justify-end">
+                <button
+                    class="px-5 py-2.5 bg-stone-100 text-stone-600 rounded-full text-sm font-semibold hover:bg-stone-200"
+                    (click)="deleteId=''">Cancel</button>
+                <button
+                    class="px-5 py-2.5 bg-orange-500 text-white rounded-full text-sm font-semibold hover:bg-red-600 transition-colors"
+                    (click)="confirmDelete()">Delete</button>
+            </div>
+        </div>
+    </div>
+    }
+
+</div>

@@ -1,0 +1,28 @@
+<!-- <p>cart works!</p> -->
+<section class="bg-slate-100 mt-4 rounded-2xl h-full p-4">
+    <h1 class="text-4xl text-blue-950 font-black text-center">Cart Items</h1>
+    <div class="flex-1 gap-4 pt-5">
+        @for(product of products;track product.id){
+        <div class="flex items-center justify-between bg-white p-3 rounded-xl shadow w-120">
+            <img [src]="product.img" class="w-20 h-20 object-cover rounded">
+            <div class="flex ml-4 gap-4">
+                <h2 class="font-bold text-lg">{{product.name}}</h2>
+                <p class="text-green-600 font-bold gap-4">₹ {{product.price}}</p>
+            </div>
+            <div class="flex items-center gap-2 border px-2 py-1 rounded">
+
+                <button (click)="decreaseItem(product.id)" class="text-xl px-2">−</button>
+
+                <span class="font-bold">{{product.quantity}}</span>
+
+                <button (click)="addItem(product)" class="text-xl px-2">+</button>
+
+            </div>
+            <button (click)="removeItem(product.id)" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                Remove
+            </button>
+        </div>
+        }
+    </div>
+
+</section>

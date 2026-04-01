@@ -1,0 +1,97 @@
+/* Full background */
+.bg-container {
+  height: 100vh;
+  background: url('/reactive.webp') no-repeat center center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Navbar */
+.navbar {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+  display: flex;
+  gap: 30px;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Glass card */
+.login-card {
+  width: 350px;
+  padding: 40px;
+  border-radius: 20px;
+  background: rgba(203, 200, 200, 0.2);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* Title */
+.title {
+  margin-bottom: 25px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Input box */
+.input-box {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid #333;
+  background: transparent;
+  outline: none;
+}
+
+.input-box label {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  font-size: 14px;
+  color: #555;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+/* Floating label */
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+  top: -10px;
+  font-size: 12px;
+  color: #000;
+}
+
+/* Row */
+.row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+/* Button */
+.btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #4a8df6;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Register */
+.register {
+  margin-top: 15px;
+  font-size: 12px;
+}

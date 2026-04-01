@@ -1,0 +1,23 @@
+<!-- <p>order works!</p> -->
+<main class="h-screen w-full mt-30 flex justify-center items-center bg-slate-200">
+    <section class="rounded-2xl border border-slate-100 h-120 w-120 bg-slate-100 shadow-lg ">
+        <h1 class="text-3xl font-black text-blue-950 text-center mt-5">Order Management System</h1>
+        
+        <div class="flex flex-col p-6">
+            <label for="name" class="font-medium">Name: </label>
+            <input type="text" id="name" [(ngModel)] = "name" class="bg-slate-50 p-2 rounded-2xl shadow-md">
+        </div>
+        <div class="flex flex-col pr-6 pl-6">
+            <label for="status" class="font-medium">Order Status: </label>
+            <input type="text" id="status" [(ngModel)]="orderStatus" class="bg-slate-50 p-2 rounded-2xl shadow-md">
+            <p class="text-gray-400">Delivery /  Processing / Cancelled  </p>
+        </div>
+        <button class="bg-blue-950 text-white p-1 pl-3 w-60 rounded-2xl ml-30 mt-5 mb-4" (click)="handleSubmit()">Submit</button><hr>
+
+        @if(isSubmitted){
+            <p class="text-slate-600 p-4 text-2xl">Name : {{name}}</p>
+            <!-- //style the orderstatus based on status -->
+            <p [ngStyle]="{color:orderStatus === 'delivery' ?'green':orderStatus === 'processing' ?'orange': orderStatus === 'cancelled'?'red':'black', fontSize:'25px'}" class="p-4">Order Status : {{orderStatus}}</p>
+        }
+    </section>
+</main>

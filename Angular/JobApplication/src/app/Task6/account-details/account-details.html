@@ -1,0 +1,27 @@
+<!-- <p>account-details works!</p> -->
+<main class="h-screen w-full mt-10 border flex justify-center bg-violet-50">
+    <section class="h-100 w-120 bg-violet-200 shadow-lg shadow-violet-400 mt-20 rounded-2xl ">
+        <h1 class="text-3xl text-violet-950 font-black text-center p-3">Banking DashBoard</h1>
+
+        <hr>
+        <div class="p-5">
+            <div class="mb-3">
+                <b>Account Holder : </b>
+                {{account.name}}
+            </div>
+            <div class="mb-3">
+                <b>Account Number : </b>
+                {{account.accountNumber | account}}
+            </div>
+            <div class="mb-3">
+                <b>Account Balance : </b>
+                {{account.balance | currency : 'INR'}}
+            </div>
+            <div class="mb-3">
+                <b>Last Transaction date : </b>
+                {{account.lastTransactionDate | date : 'mediumDate'}}
+            </div>
+        </div>
+
+    </section>
+</main>

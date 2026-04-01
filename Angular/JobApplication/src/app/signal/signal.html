@@ -1,0 +1,24 @@
+<!-- <p>signal works!</p> -->
+ <section class="border border-blue-300 bg-blue-200 pl-30 pr-30 mt-20">
+    <div class="mt-30">
+    <h1 class="text-5xl text-center">Attribute Directive</h1>
+    <h1 [ngClass]="{
+        go:property=='go'
+    }"class="p-4 text-4xl text-center border shadow-2xl rounded-2xl w-25px  mt-10">the signal currently {{property}}</h1>
+   
+</div>
+<div class="mt-30">
+    <h1 class="text-5xl text-center">Attribute Directive</h1>
+    <h1 [ngClass]="{
+        wait:property1=='wait'
+    }"class="p-4 text-4xl text-center border shadow-2xl rounded-2xl w-25px  mt-10">the signal currently {{property1}}</h1>
+   
+</div>
+<div class="mt-30">
+    <h1 class="text-5xl text-center">Attribute Directive</h1>
+    <h1 [ngClass]="{
+        stop:property2=='stop'
+    }"class="p-4 text-4xl text-center border shadow-2xl rounded-2xl w-25px  mt-10 mb-30">the signal currently {{property2}}</h1>
+   
+</div>
+ </section>

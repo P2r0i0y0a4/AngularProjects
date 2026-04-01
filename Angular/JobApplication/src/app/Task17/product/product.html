@@ -1,0 +1,14 @@
+<!-- <p>product works!</p> -->
+<section class="bg-slate-100 w-190 m-4 rounded-2xl h-full p-4">
+    <h1 class="text-4xl text-blue-950 font-black text-center">Products</h1>
+    <div class="flex flex-wrap pl-10 pt-5">
+        @for(item of items ; track item.id){
+            <div class="bg-white p-2 rounded m-2 shadow-lg shadow-black">
+                <img [src]="item.img" alt="" height="300px" width="300px">
+                <h1 class="text-2xl font-semibold flex justify-center items-center">{{item.name}}</h1>
+                <h1 class="text-2xl font-semibold flex justify-center items-center">{{item.price}}</h1>
+                <button (click)="AddToCart(item)" class="bg-blue-500 text-white p-2 rounded-2xl">ADD TO CART</button>
+            </div>
+        }
+    </div>
+</section>

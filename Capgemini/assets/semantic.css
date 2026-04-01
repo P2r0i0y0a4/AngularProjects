@@ -1,0 +1,32 @@
+#a{
+    background-color: burlywood;
+    line-height:100px;
+    text-align: center;
+}
+
+#aa{
+    display: flex;
+    text-align: center;
+    margin-top: 2%;
+
+}
+ #a1{
+    width: 30%;
+    margin-right: 1%;
+ }
+
+ #a2{
+    width:40%;
+    margin-right: 1%;
+
+ }
+
+ #a3{
+    width:30%;
+ }
+
+ #aaa{
+     background-color: burlywood;
+    line-height:100px;
+    text-align:center;
+ }

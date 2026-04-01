@@ -1,0 +1,9 @@
+a:visited{
+    color:brown;
+}
+a:hover{
+    background-color: chartreuse;
+}
+a:active{
+    color: rgb(44, 7, 4);
+}

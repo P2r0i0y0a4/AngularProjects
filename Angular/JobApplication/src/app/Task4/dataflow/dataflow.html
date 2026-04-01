@@ -1,0 +1,23 @@
+<!-- <p>dataflow works!</p> -->
+<section class="h-full w-full bg-amber-100 mb-10 mt-10 p-5 ">
+    <h1 class="text-amber-950 text-5xl flex justify-center items-center">Parent Component Communication </h1><br>
+    <hr>
+    <h1 class="text-3xl text-red-600 pt-3">Alert Example</h1>
+
+    <button (click)="handleClick()" class="border mb-4">Click</button><hr><hr>
+    <h1 class="text-3xl text-red-600">Calling simple msg/array/object from parent ts file to child ts file </h1>
+    <app-dataflow-child [msg]="message" [mark]="marks" [item]="ProductItem"
+ (text)="handleInfo($event)"></app-dataflow-child>
+    <h1 class="text-4xl font-black">{{info}}</h1><hr>
+</section>
+
+<hr><hr><hr>
+<h1 class="text-3xl text-red-600">calling parent object from parent itself</h1>
+<section class="border w-80 h-full mr-10 ml-10 mt-20 p-2 shadow-2xl">
+    <div>
+        <h1 class="text-2xl text-blue-900 font-black font-serif italic text-center ">User Data</h1><hr class="pb-2">
+        <p><b>Name : </b>{{ProductItem.productId}}</p>
+        <p><b>Email :</b> {{ProductItem.email}}</p>
+        <p><b>Experience : </b>{{ProductItem.productName}}</p>
+    </div><hr>
+</section>

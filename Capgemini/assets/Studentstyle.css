@@ -1,0 +1,36 @@
+body{
+    background-color:#f5d6d6;
+}
+
+.container{
+    width:500px;
+    margin:50px auto;
+    padding:30px;
+}
+
+h1{
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+label{
+    display: inline-block;
+    width: 130px;
+    margin-bottom: 10px;
+}
+
+
+textarea{
+    width: 200px;
+    height: 80px;
+    vertical-align:middle;
+}
+
+.btn{
+    text-align: center;
+}
+
+button{
+    padding:5px 15px;
+    cursor: pointer;
+}

@@ -1,0 +1,231 @@
+<!-- dashboard.component.html -->
+
+<div class="max-w-[1160px] mx-auto px-6 py-8">
+
+  <!-- ══ HERO ══ -->
+  <div class="bg-[#16120e] rounded-[22px] px-12 py-10 mb-8 relative overflow-hidden">
+
+    <!-- Glow blobs -->
+    <div class="absolute -top-20 -right-20 w-[300px] h-[300px] rounded-full pointer-events-none"
+      style="background:radial-gradient(circle,rgba(212,88,26,.3),transparent 70%)"></div>
+    <div class="absolute -bottom-24 left-[35%] w-[260px] h-[260px] rounded-full pointer-events-none"
+      style="background:radial-gradient(circle,rgba(26,107,158,.2),transparent 70%)"></div>
+
+    <!-- Top row -->
+    <div class="flex justify-between items-start relative z-10 mb-6">
+      <div>
+        <h1 class="text-[#f7f2ea] text-[2rem] leading-[1.15] mb-1.5"
+          style="font-family:'Cormorant Garamond',serif">
+          Welcome back,<br/>Explorer 🌍
+        </h1>
+        @if (tripService.upcomingTrips().length > 0) {
+          <p class="text-[#8a7f74] text-sm m-0">
+            You have {{ tripService.upcomingTrips().length }} upcoming trip{{ tripService.upcomingTrips().length > 1 ? 's' : '' }}
+          </p>
+        } @else {
+          <p class="text-[#8a7f74] text-sm m-0">No upcoming trips — plan one! ✈️</p>
+        }
+      </div>
+
+      <!-- KPI cards -->
+      <div class="flex gap-7">
+        @for (k of kpis(); track k.label) {
+          <div class="text-right">
+            <span class="block text-[#f7f2ea] text-[2rem] font-bold"
+              style="font-family:'Cormorant Garamond',serif">{{ k.value }}</span>
+            <span class="text-[11.5px] text-[#8a7f74] uppercase tracking-[.06em]">{{ k.label }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Countdown strip -->
+    <div class="flex gap-3 relative z-10 flex-wrap">
+      @for (trip of tripService.upcomingTrips().slice(0, 3); track trip.id) {
+        <div class="bg-white/[0.08] border border-white/10 rounded-xl px-4 py-3 flex gap-3 items-center min-w-[200px] flex-1 cursor-pointer transition-colors hover:bg-white/[0.14] no-underline"
+          [routerLink]="['/trips', trip.id]">
+          <div class="text-[#d4581a] text-[2rem] font-bold min-w-[48px] text-center"
+            style="font-family:'Cormorant Garamond',serif">
+            {{ tripService.getDaysUntil(trip) > 0 ? tripService.getDaysUntil(trip) : 'Now' }}
+          </div>
+          <div>
+            <p class="text-[#f7f2ea] text-[13px] font-medium m-0 mb-0.5">{{ trip.title }}</p>
+            <span class="text-[#8a7f74] text-[11.5px]">{{ trip.destination }}</span>
+          </div>
+        </div>
+      } @empty {
+        <p class="text-[#8a7f74] text-sm">Plan your first trip to see countdowns here!</p>
+      }
+    </div>
+  </div>
+
+  <!-- ══ CONTROLS ROW ══ -->
+  <div class="flex gap-3 mb-6 items-center flex-wrap">
+
+    <!-- Search -->
+    <div class="flex-1 min-w-[200px] relative">
+      <span class="absolute left-[13px] top-1/2 -translate-y-1/2 text-[15px] pointer-events-none">🔍</span>
+      <input type="text" placeholder="Search trips…" [(ngModel)]="searchQuery"
+        class="w-full pl-10 pr-4 py-[11px] border-[1.5px] border-[#ddd3c2] rounded-full text-sm bg-white outline-none font-[DM_Sans,sans-serif] focus:border-[#1a6b9e]" />
+    </div>
+
+    <!-- View toggle -->
+    <div class="flex bg-white border-[1.5px] border-[#ddd3c2] rounded-full overflow-hidden">
+      <button (click)="viewMode.set('grid')"
+        class="px-3.5 py-2 text-base cursor-pointer transition-colors border-none"
+        [class]="viewMode() === 'grid' ? 'bg-[#16120e] text-[#f7f2ea]' : 'bg-transparent text-inherit'">⊞</button>
+      <button (click)="viewMode.set('list')"
+        class="px-3.5 py-2 text-base cursor-pointer transition-colors border-none"
+        [class]="viewMode() === 'list' ? 'bg-[#16120e] text-[#f7f2ea]' : 'bg-transparent text-inherit'">☰</button>
+    </div>
+
+    <!-- Filter chips -->
+    <div class="flex gap-2 flex-wrap">
+      @for (tab of filterTabs; track tab.value) {
+        <button (click)="activeFilter.set(tab.value)"
+          class="flex items-center gap-1.5 px-3.5 py-2 rounded-full border-[1.5px] text-[13px] font-medium cursor-pointer transition-all font-[DM_Sans,sans-serif]"
+          [class]="activeFilter() === tab.value
+            ? 'bg-[#16120e] border-[#16120e] text-[#f7f2ea]'
+            : 'bg-white border-[#ddd3c2] text-[#3d3529] hover:border-[#1a6b9e] hover:text-[#1a6b9e]'">
+          {{ tab.label }}
+          <span class="px-1.5 py-px rounded-[10px] text-[11px]"
+            [class]="activeFilter() === tab.value ? 'bg-white/20' : 'bg-[#f0ebe2] text-[#8a7f74]'">
+            {{ getCount(tab.value) }}
+          </span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- ══ GRID VIEW ══ -->
+  @if (viewMode() === 'grid') {
+    <div class="grid gap-6" style="grid-template-columns:repeat(auto-fill,minmax(310px,1fr))">
+
+      @for (trip of filteredTrips(); track trip.id) {
+        <div class="bg-white rounded-[14px] overflow-hidden cursor-pointer transition-all duration-[.25s]
+          shadow-[0_2px_16px_rgba(22,18,14,.09)] hover:-translate-y-[5px] hover:shadow-[0_8px_40px_rgba(22,18,14,.16)]"
+          [routerLink]="['/trips', trip.id]">
+
+          <!-- Cover -->
+          <div class="h-[170px] bg-cover bg-center relative"
+            [style.background-image]="'url(' + trip.coverImage + ')'">
+            <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(22,18,14,.65) 0%,transparent 55%)"></div>
+            <div class="absolute bottom-3 left-3.5 right-3.5 flex justify-between items-end">
+              <span class="text-white text-[1.1rem] font-semibold" style="font-family:'Cormorant Garamond',serif;text-shadow:0 1px 5px rgba(0,0,0,.5)">
+                {{ trip.destination }}
+              </span>
+              <span class="text-[11px] font-semibold px-2.5 py-[3px] rounded-[20px]"
+                [class]="{
+                  'bg-[rgba(26,107,158,.85)] text-white':  trip.status === 'upcoming',
+                  'bg-[rgba(45,122,80,.85)]  text-white':  trip.status === 'ongoing',
+                  'bg-[rgba(92,61,143,.85)]  text-white':  trip.status === 'completed',
+                  'bg-[rgba(184,134,27,.85)] text-white':  trip.status === 'draft'
+                }">{{ trip.status | titlecase }}</span>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="px-[18px] pt-[15px] pb-[17px]">
+            <h3 class="text-[1rem] font-semibold mb-[5px]">{{ trip.title }}</h3>
+
+            <div class="flex gap-2 text-[12.5px] text-[#8a7f74] mb-[11px] flex-wrap items-center">
+              <span>📅 {{ trip.startDate | date:'MMM d' }} – {{ trip.endDate | date:'MMM d, y' }}</span>
+              <span class="bg-[#f0ebe2] text-[#3d3529] px-2 py-[2px] rounded-lg text-[11.5px]">{{ tripService.getDayCount(trip) }}d</span>
+              <span class="bg-[#f0ebe2] text-[#3d3529] px-2 py-[2px] rounded-lg text-[11.5px]">{{ trip.type }}</span>
+            </div>
+
+            <!-- Budget bar -->
+            <div class="mb-[13px]">
+              <div class="flex justify-between text-xs mb-[5px]">
+                <span>{{ trip.currency }}{{ trip.budget | number }}</span>
+                <span class="text-[#d4581a] font-medium">{{ trip.currency }}{{ trip.spent | number }} spent</span>
+              </div>
+              <div class="h-[5px] bg-[#ede6d8] rounded overflow-hidden">
+                <div class="h-full rounded transition-[width_.5s]"
+                  [style.width.%]="getBudgetPct(trip)"
+                  [class]="{
+                    'bg-[#1a6b9e]': getBudgetPct(trip) < 70,
+                    'bg-[#b8861b]': getBudgetPct(trip) >= 70 && getBudgetPct(trip) < 90,
+                    'bg-[#d4581a]': getBudgetPct(trip) >= 90
+                  }"></div>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="flex justify-between items-center">
+              <button class="bg-[#e5f1f9] text-[#1a6b9e] border-none px-4 py-2 rounded-[20px] text-[13px] font-semibold cursor-pointer transition-all hover:bg-[#1a6b9e] hover:text-white font-[DM_Sans,sans-serif]"
+                [routerLink]="['/trips', trip.id]" (click)="$event.stopPropagation()">View →</button>
+              <button class="bg-none border-none cursor-pointer text-[15px] p-1.5 rounded-lg transition-colors hover:bg-[#fdecea]"
+                (click)="$event.stopPropagation(); onDelete(trip.id)">🗑️</button>
+            </div>
+          </div>
+        </div>
+
+      } @empty {
+        <div class="col-span-full text-center py-16 px-8 text-[#8a7f74]">
+          <div class="text-[3.5rem] mb-4">🗺️</div>
+          <h3 class="mb-2" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:#3d3529">No trips found</h3>
+          <p class="mb-0">{{ searchQuery ? 'Try a different search.' : 'Plan your first adventure!' }}</p>
+          <a routerLink="/trips/new"
+            class="inline-block mt-4 bg-[#16120e] text-[#f7f2ea] no-underline px-6 py-2.5 rounded-full text-sm font-semibold transition-colors hover:bg-[#d4581a]">
+            Plan a Trip
+          </a>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- ══ LIST VIEW ══ -->
+  @else {
+    <div class="flex flex-col gap-2.5">
+      @for (trip of filteredTrips(); track trip.id) {
+        <div class="bg-white rounded-xl flex items-center gap-4 px-[18px] py-3.5 cursor-pointer transition-shadow
+          shadow-[0_2px_12px_rgba(22,18,14,.07)] hover:shadow-[0_6px_24px_rgba(22,18,14,.14)]"
+          [routerLink]="['/trips', trip.id]">
+          <div class="w-[60px] h-[60px] rounded-[10px] bg-cover bg-center flex-shrink-0"
+            [style.background-image]="'url(' + trip.coverImage + ')'"></div>
+          <div class="flex-1 min-w-0">
+            <div class="text-[14.5px] font-semibold mb-[3px]">{{ trip.title }}</div>
+            <div class="text-[12.5px] text-[#8a7f74]">📍 {{ trip.destination }} | {{ trip.type }} | {{ trip.companions }}</div>
+          </div>
+          <span class="text-[11px] font-semibold px-2.5 py-[3px] rounded-[20px]"
+            [class]="{
+              'bg-[rgba(26,107,158,.15)] text-[#1a6b9e]':  trip.status === 'upcoming',
+              'bg-[rgba(45,122,80,.15)]  text-[#2d7a50]':  trip.status === 'ongoing',
+              'bg-[rgba(92,61,143,.15)]  text-[#5c3d8f]':  trip.status === 'completed',
+              'bg-[rgba(184,134,27,.15)] text-[#b8861b]':  trip.status === 'draft'
+            }">{{ trip.status }}</span>
+          <button class="bg-none border-none cursor-pointer text-[15px] p-1.5 rounded-lg hover:bg-[#fdecea]"
+            (click)="$event.stopPropagation(); onDelete(trip.id)">🗑️</button>
+        </div>
+      } @empty {
+        <div class="text-center py-16 text-[#8a7f74]">
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:#3d3529">No trips found</h3>
+        </div>
+      }
+    </div>
+  }
+
+</div>
+
+<!-- ══ DELETE MODAL ══ -->
+@if (deleteTargetId()) {
+  <div class="fixed inset-0 bg-[rgba(22,18,14,.55)] z-[500] flex items-center justify-center backdrop-blur-[3px]"
+    (click)="deleteTargetId.set(null)">
+    <div class="bg-white rounded-[22px] max-w-[440px] w-[90%] p-8 shadow-[0_24px_80px_rgba(22,18,14,.3)]"
+      (click)="$event.stopPropagation()">
+      <h3 class="mb-2" style="font-family:'Cormorant Garamond',serif;font-size:1.5rem">Delete Trip?</h3>
+      <p class="text-sm text-[#8a7f74] mb-6 leading-relaxed">This will permanently remove all itinerary data and packing lists.</p>
+      <div class="flex gap-2.5 justify-end">
+        <button (click)="deleteTargetId.set(null)"
+          class="bg-[#f7f2ea] border-none px-5 py-2.5 rounded-full text-sm font-semibold cursor-pointer text-[#3d3529] font-[DM_Sans,sans-serif]">
+          Cancel
+        </button>
+        <button (click)="confirmDelete()"
+          class="bg-[#d4581a] text-white border-none px-6 py-2.5 rounded-full text-sm font-semibold cursor-pointer font-[DM_Sans,sans-serif]">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+}

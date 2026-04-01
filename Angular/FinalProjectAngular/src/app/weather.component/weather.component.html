@@ -1,0 +1,95 @@
+<!-- <p>weather.component works!</p> -->
+<div class="min-h-screen bg-[#f7f2ea] p-6 lg:p-12 font-sans">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="serif text-4xl mb-8 text-stone-800 font-semibold">Travel Forecast</h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="space-y-4">
+        <h2 class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-4">Your Destinations</h2>
+        <div class="space-y-3">
+          @for (t of trips(); track t.id) {
+            <div (click)="loadWeather(t)" 
+                 class="bg-white p-5 rounded-2xl shadow-sm border-2 transition-all cursor-pointer group"
+                 [class.border-blue-500]="selectedCity() === t.destination"
+                 [class.border-transparent]="selectedCity() !== t.destination">
+              <div class="flex justify-between items-center">
+                <div>
+                  <p class="font-bold text-stone-800 text-lg">{{ t.destination }}</p>
+                  <p class="text-xs text-stone-400 font-medium">{{ t.title }}</p>
+                </div>
+                <span class="text-stone-300 group-hover:text-blue-500 transition-colors">→</span>
+              </div>
+            </div>
+          } @empty {
+            <div class="text-stone-400 text-sm italic">No trips planned yet.</div>
+          }
+        </div>
+      </div>
+
+      <div class="lg:col-span-2">
+        @if (loading()) {
+          <div class="h-96 flex flex-col items-center justify-center bg-white rounded-3xl border border-stone-100 shadow-sm">
+            <div class="w-8 h-8 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+            <p class="text-stone-400 animate-pulse">Fetching live skies...</p>
+          </div>
+        } 
+        @else if (selectedWeather()) {
+          <div class="bg-white rounded-3xl p-8 shadow-sm border border-stone-100 animate-in fade-in duration-500">
+            <div class="flex justify-between items-start mb-12">
+              <div>
+                <span class="text-blue-600 font-bold text-xs uppercase tracking-widest">Current Weather</span>
+                <h2 class="serif text-6xl text-stone-800 mt-2 capitalize">{{ selectedCity() }}</h2>
+                <p class="text-stone-400 text-lg mt-1">{{ selectedWeather()?.desc }}</p>
+              </div>
+              <div class="text-right">
+                <p class="text-7xl font-light text-stone-800 tracking-tighter">{{ selectedWeather()?.temp }}</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+              <div class="bg-stone-50 p-5 rounded-2xl border border-stone-100">
+                <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-1">Humidity</p>
+                <p class="text-xl font-semibold text-stone-800">{{ selectedWeather()?.humidity }}</p>
+              </div>
+              <div class="bg-stone-50 p-5 rounded-2xl border border-stone-100">
+                <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-1">Wind</p>
+                <p class="text-xl font-semibold text-stone-800">{{ selectedWeather()?.wind }}</p>
+              </div>
+              <div class="bg-stone-50 p-5 rounded-2xl border border-stone-100">
+                <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-1">UV Index</p>
+                <p class="text-xl font-semibold text-stone-800">{{ selectedWeather()?.uv }}</p>
+              </div>
+              <div class="bg-stone-50 p-5 rounded-2xl border border-stone-100">
+                <p class="text-[10px] font-bold text-stone-400 uppercase tracking-wider mb-1">Visibility</p>
+                <p class="text-xl font-semibold text-stone-800">{{ selectedWeather()?.visibility }}</p>
+              </div>
+            </div>
+
+            <div class="border-t border-stone-100 pt-8">
+              <h3 class="text-xs font-bold text-stone-400 uppercase tracking-widest mb-6">Upcoming Days</h3>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                @for (f of selectedWeather()?.forecast; track f.day) {
+                  <div class="flex items-center md:flex-col md:items-start justify-between p-4 bg-white rounded-2xl border border-stone-50 hover:shadow-md transition-shadow">
+                    <span class="font-bold text-stone-800 w-12 md:w-auto">{{ f.day }}</span>
+                    <span class="text-4xl my-2">{{ f.ico }}</span>
+                    <div class="flex gap-3 items-baseline">
+                      <span class="text-lg font-bold text-stone-800">{{ f.h }}°</span>
+                      <span class="text-sm text-stone-400">{{ f.l }}°</span>
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        } 
+        @else {
+          <div class="h-96 flex flex-col items-center justify-center border-2 border-dashed border-stone-200 rounded-3xl bg-white/50 text-stone-400">
+            <div class="text-5xl mb-4">☁️</div>
+            <p class="font-medium">Select a destination to see the forecast</p>
+            <p class="text-sm opacity-60">Real-time data from OpenWeatherMap</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

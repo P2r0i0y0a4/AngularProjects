@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- forms: form is used to get information from the user -->
+     <!-- action attribute: this renders to another page when we give submit -->
+      <!-- Placeholder: it is transparent text -->
+    <form action="">
+        <fieldset>
+            <legend>Login details</legend>
+        <label for="name" >name:</label>
+        <input type="text" id="name" placeholder="enter ur name" required name="name:"><br>
+
+        <label for="password">password:</label>
+        <input type="password" id="password" required name="password:"><br>
+
+        <label for="confirm password">confirm password</label>
+        <input type="password" id="confirm password" name="confirm pass:"><br>
+
+        <label for="email">email:</label>
+        <input type="email" id="email" required name="email:"><br>
+
+        <label for="file">file</label>
+        <input type="file" id="file" name="file:"><br>
+
+        <label for="age"> Age:</label>
+        <input type="number" id="age" min="18" max="50" name="age:"><br>
+
+        <label for="phone">Phone no:</label>
+        <input type="tel" id="phone" name="phone:">
+        <br>
+
+        <label for="date">date</label>
+        <input type="date" id="date" name="date:"><br>
+
+        <label for="date">date&time</label>
+        <input type="datetime-local" id="date" name="date&time:"><br>
+
+        <label for="month">month</label>
+        <input type="month" name="month:"><br>
+
+        <label for="week">week</label>
+        <input type="week" name="week:"><br>
+        <!-- depreacted -->
+        <!-- <label for="">year</label> -->
+        <!-- <input type="year"> -->
+
+        <label for="yrsrange">year of experience</label>
+        <input type="range" id="yrsrange" name="range:" min="0" max="100"><br>
+
+        <!-- to down menu -->
+        <select name="menu" id="menu">
+            <option value="Apple">Apple</option>
+            <option value="Orange">Orange</option>
+            <option value="Banana">Banana</option>
+        </select><br>
+         
+        <textarea name="" id=""></textarea><br>
+        <label for="">Gender:</label>
+        <input type="radio">male
+        <input type="radio">female<br>
+        <br>
+
+
+        <!-- list: This is used to connect the input fields to datalist -->
+        <input type="text" list="fruitss" placeholder="select your fruits">
+        <datalist id="fruitss">
+            <option value="Apple">Apple</option>
+            <option value="Orange">Orange</option>
+            <option value="Banana">Banana</option>
+            <option value="Watermelon">Watermelon</option><br>
+        </datalist><br>
+
+        <label for="">skills</label>
+        <input type="checkbox">java
+        <input type="checkbox">HTML
+        <input type="checkbox" disabled>CSS<br><br>
+        <h4>Validation</h4>
+        
+        <!-- Validation of forms in html -->
+        <!-- It is the process of ensuring that the data enters into the form is correct and completed-->
+        <!-- common validation(attribute)
+        1.required// it ensureing user must give the input to that particular tag
+        2.min and max//limitation of tag
+        3.read-only//user can't change anything
+        4.disabled//use to disbale tag
+        5.checked //basic use for default selection-->
+        
+        <label for="name" >name:</label>
+        <input type="text" id="name" placeholder="enter ur name" required><br>
+        
+        <label for="password">password:</label>
+        <input type="password" id="password" required><br>
+        
+        <label for="confirm password">confirm password</label>
+        <input type="password" id="confirm password"><br>
+        
+        <label for="email">email:</label>
+        <input type="email" id="email" required><br>
+        <textarea name="" id="" readonly></textarea><br>
+        
+        <button type="submit">submit</button>
+        
+    </fieldset>
+
+    </form>
+</body>
+</html>

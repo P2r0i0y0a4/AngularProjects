@@ -1,0 +1,78 @@
+<section class="flex flex-col p-6">
+
+    <section class="flex gap-8 items-center">
+        
+        <div class="flex flex-col">
+            <h2 class="text-lg font-semibold mb-3">Add New Task</h2>
+            <input type="text" [(ngModel)]="taskTitle" placeholder="Enter task title..."
+                class="border p-2 pl-3 ml-4 rounded w-150">
+        </div>
+        <div class="relative w-40">
+            <h2 class="text-lg font-semibold mb-3">Project</h2>
+
+            <select [(ngModel)]="selectedProject" class="border p-2 rounded w-full appearance-none">
+
+                <option>Personal</option>
+                <option>Work</option>
+                <option>Business</option>
+            </select>
+            <i class="fa-solid fa-caret-down absolute right-3 top-3 pointer-events-none"></i>
+
+        </div>
+        <div class="mt-10">
+            <button (click)="addTask()" class="bg-blue-600 text-white px-4 py-2 rounded">
+                Add Task
+            </button>
+        </div>
+    </section>
+
+    <div class="bg-white p-4 rounded shadow">
+
+        <h2 class="text-lg font-semibold mb-4 bg-blue-200 h-15 p-3">My Tasks</h2>
+
+        @if (tasks.length === 0) {
+        <p class="text-gray-700">No tasks available</p>
+        }
+
+        @for (task of tasks; track $index; let i = $index) {
+
+        <div class="border rounded p-3 mb-3 flex justify-between items-center">
+
+            <div class="flex items-center gap-3">
+
+                <input type="checkbox" [checked]="task.completed" (change)="toggleTask(task)">
+
+                <div>
+                    <h3 class="font-semibold">
+                        <!-- [class.line-through]="task.completed"> -->
+                        {{ task.title }}
+                    </h3>
+
+                    <p class="text-sm text-gray-800">
+                        Project:
+                        <span class="bg-green-200 text-green-950 px-1  rounded">
+                            {{ task.project }}
+                        </span>
+
+                        | Due:
+                        <span class="bg-red-200 text-red-700 px-2 rounded">
+                            {{ task.due }}
+                        </span>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="flex gap-3 text-lg">
+                <i class="fa-solid fa-pen text-gray-600"></i>
+
+                <i class="fa-solid fa-trash text-red-500 cursor-pointer" (click)="deleteTask(i)"></i>
+            </div>
+
+        </div>
+
+        }
+
+    </div>
+
+</section>

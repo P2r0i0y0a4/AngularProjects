@@ -1,0 +1,26 @@
+#one{
+    border-color: azure;
+}
+
+.two{
+    background-color:rgba(247, 21, 115, 0.932);
+}
+
+.t{
+    background-color: rgb(255, 255, 255);
+}
+
+#t1{
+    background-color:rgb(121, 240, 240);
+}
+
+.c{
+    background-color: yellow;
+}
+.c1{
+    text-align: center;
+    background-color: rgb(218, 239, 248);
+}
+#c2{
+    background-color:rgb(247, 213, 238) ;
+}

@@ -1,0 +1,20 @@
+<!-- <p>task5 works!</p> -->
+<section class="h-screen w-full flex justify-center bg-slate-100">
+    <div class="h-100 w-120 bg-white shadow-lg shadow-olive-600 mt-30 rounded-2xl">
+        <h1 class="text-indigo-700 text-4xl text-center p-3 font-black">Candidate List</h1>
+        <p class="px-15 py-3"><b>Candidate Name :</b> {{name | uppercase}}</p>
+        <p class="px-15 py-3"><b>Salary : </b>{{salary | currency : 'INR'}}</p>
+        <p class="px-15 py-3"><b>Joining Date : </b>{{joining_date | date}}</p>
+        <p class="px-15 py-3"><b>Experience Score : </b>{{experienceScore | percent}}</p>
+        <p class="px-15 py-3"><b>Info :</b> {{info | slice : 0:130}}</p>
+    </div>
+     <div class="h-100 w-120 bg-white shadow-lg shadow-olive-600 mt-30 rounded-2xl">
+        <h1 class="text-indigo-700 text-4xl text-center p-3 font-black">Student List</h1>
+        <p class="px-15 py-3"><b>Student Name :</b> {{student.name }}</p>
+        <p class="px-15 py-3"><b>course: </b>{{student.course}}</p>
+        <p class="px-15 py-3"><b>Grade : </b>{{student.grade}}</p>
+        <p class="px-15 py-3">{{student | json }}</p>
+    </div>
+    
+
+</section>

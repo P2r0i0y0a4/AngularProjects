@@ -1,0 +1,134 @@
+<!-- <p>login.component works!</p> -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+  * { box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; }
+  .logo-font { font-family: 'Cormorant Garamond', serif; }
+  .auth-bg { min-height: 100vh; background: #0c0a09; position: relative; overflow: hidden; }
+  .glow1 { position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(234,88,12,0.15), transparent 60%); pointer-events: none; }
+  .glow2 { position: absolute; bottom: -20%; left: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(30,58,138,0.12), transparent 60%); pointer-events: none; }
+  .grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 48px 48px; }
+  .card { animation: fadeUp 0.5s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .input-field { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1); color: #fef9f0; border-radius: 12px; padding: 13px 16px; width: 100%; font-size: 14px; font-family: 'DM Sans', sans-serif; outline: none; transition: all 0.2s; }
+  .input-field:focus { border-color: rgba(234,88,12,0.7); background: rgba(255,255,255,0.08); box-shadow: 0 0 0 3px rgba(234,88,12,0.1); }
+  .input-field.error { border-color: rgba(239,68,68,0.7); }
+  .input-field::placeholder { color: rgba(255,255,255,0.25); }
+  .btn-primary { background: linear-gradient(135deg, #ea580c, #dc2626); color: white; font-weight: 600; font-family: 'DM Sans', sans-serif; border: none; border-radius: 12px; padding: 14px; width: 100%; font-size: 15px; cursor: pointer; transition: all 0.2s; }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(234,88,12,0.35); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .social-btn { border: 1.5px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.7); border-radius: 12px; padding: 12px; font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .social-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25); color: #fff; }
+  .label { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; display: block; }
+  .error-text { color: #f87171; font-size: 12px; margin-top: 4px; }
+  .divider { display: flex; align-items: center; gap: 12px; color: rgba(255,255,255,0.2); font-size: 12px; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+  .globe-ring { position: absolute; border: 1px solid rgba(255,255,255,0.04); border-radius: 50%; }
+</style>
+
+<div class="auth-bg flex items-center justify-center p-4">
+  <div class="glow1"></div>
+  <div class="glow2"></div>
+  <div class="grid-bg"></div>
+
+  <!-- Decorative rings -->
+  <div class="globe-ring" style="width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+  <div class="globe-ring" style="width:900px;height:900px;top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+
+  <div class="card relative z-10 w-full max-w-md">
+    <!-- Logo -->
+    <div class="text-center mb-8">
+      <div class="logo-font text-4xl text-amber-50 font-bold mb-2">
+        <span class="text-orange-500">✦</span> WanderPlan
+      </div>
+      <p class="text-stone-400 text-sm">Your journey, beautifully crafted</p>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-stone-900/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
+      <div class="mb-6">
+        <h2 class="logo-font text-3xl text-amber-50 font-semibold mb-1">Welcome back</h2>
+        <p class="text-stone-400 text-sm">Sign in to continue your adventures</p>
+      </div>
+
+      <!-- Social login -->
+      <div class="grid grid-cols-2 gap-3 mb-5">
+        <button class="social-btn">🌐 Google</button>
+        <button class="social-btn">📱 Apple</button>
+      </div>
+
+      <div class="divider mb-5">or continue with email</div>
+
+      <!-- Error banner -->
+      @if (errorMsg) {
+        <div class="bg-red-500/10 border border-red-500/30 text-red-400 text-sm px-4 py-3 rounded-xl mb-4 text-center">
+          {{ errorMsg }}
+        </div>
+      }
+
+      <!-- Form -->
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <div class="mb-4">
+          <label class="label">Email address</label>
+          <input
+            class="input-field"
+            [class.error]="submitted && !email"
+            type="email"
+            placeholder="you@example.com"
+            [(ngModel)]="email"
+            name="email"
+            autocomplete="email"
+          />
+          @if (submitted && !email) {
+            <div class="error-text">Email is required</div>
+          }
+        </div>
+
+        <div class="mb-6">
+          <div class="flex justify-between items-center mb-1.5">
+            <label class="label" style="margin-bottom:0">Password</label>
+            <a href="#" class="text-orange-400 text-xs hover:text-orange-300">Forgot password?</a>
+          </div>
+          <div class="relative">
+            <input
+              class="input-field pr-12"
+              [class.error]="submitted && !password"
+              [type]="showPwd ? 'text' : 'password'"
+              placeholder="Enter your password"
+              [(ngModel)]="password"
+              name="password"
+              autocomplete="current-password"
+            />
+            <button type="button" (click)="showPwd = !showPwd"
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-200 text-lg transition-colors">
+              {{ showPwd ? '🙈' : '👁️' }}
+            </button>
+          </div>
+          @if (submitted && !password) {
+            <div class="error-text">Password is required</div>
+          }
+        </div>
+
+        <button class="btn-primary" type="submit" [disabled]="loading">
+          @if (loading) { <span>Signing in… ✨</span> }
+          @else { <span>Sign In →</span> }
+        </button>
+      </form>
+
+      <p class="text-center text-stone-400 text-sm mt-5">
+        Don't have an account?
+        <a routerLink="/signup" class="text-orange-400 font-semibold hover:text-orange-300 transition-colors ml-1">Create one free →</a>
+      </p>
+    </div>
+
+    <!-- Features -->
+    <div class="grid grid-cols-3 gap-3 mt-6">
+      @for (feat of features; track feat.icon) {
+        <div class="bg-white/5 border border-white/8 rounded-2xl p-3 text-center">
+          <div class="text-xl mb-1">{{ feat.icon }}</div>
+          <div class="text-stone-400 text-xs leading-tight">{{ feat.label }}</div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

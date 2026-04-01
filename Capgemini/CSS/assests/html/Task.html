@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .mark{
+            background-color: rgb(37, 233, 37);
+            border-color: rgb(37, 233, 37);
+            border-radius: 5px;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h1 style="background-color: rgb(80, 80, 235); height: 150px; color: white;line-height: 150px;">Task Scheduler</h1>
+    
+    <form>
+        <input type="text" placeholder="Enter task..." >
+        <select>
+            <option value="Top Priority">Top Priority</option>
+            <option value="Least Priority">Least Priority</option>
+            <option value="Mid Priority">Middle Priority</option>
+        </select>
+        <input type="date">
+        <button type="submit">Add Task</button><br><br>
+    </form>
+    <table border="1" cellpadding="25px" cellspacing="10pxpx">
+        <tr>
+            <td>DSA Practice</td>
+            <td>Priority:top</td>
+            <td>Deadline: 2023-08-24</td>
+            <td id="mark">
+                <form action="">
+                <button class="mark" type="submit">Mark Done</button>
+            </form>
+            </td>
+        </tr>
+        <tr>
+            <td>Js Practice</td>
+            <td>Priority:top</td>
+            <td>Deadline: 2023-09-01</td>
+            <td id="mark">
+                <form action="">
+                <button class="mark" type="submit">Mark Done</button>
+            </form>
+            </td>
+        </tr>
+         <tr>
+            <td>MathsPractice</td>
+            <td>Priority:top</td>
+            <td>Deadline: 2023-08-31</td>
+            <td id="mark">
+                <form action="">
+                <button class="mark" type="submit">Mark Done</button>
+            </form>
+            </td>
+        </tr>
+    </table>
+    </center>
+</body>
+</html>

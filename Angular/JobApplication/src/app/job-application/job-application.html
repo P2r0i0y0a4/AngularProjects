@@ -1,0 +1,32 @@
+<!-- <p>job-application works!</p> -->
+<!-- <p>job-application works!</p> -->
+ <section class="w-full h-full mt-20 flex justify-center ">
+<section class="h-110 w-90 border bg-blue-100 p-3 rounded">
+    <h1 class="text-4xl font-black text-blue-900 text-center">Job Application</h1>
+    <div class="mt-2 p-2 flex flex-col">
+        <label for="">Name :</label>
+        <input type="text" [(ngModel)]="emp.name" class="border w-70 rounded bg-white mt-2 ">
+    </div>
+    <div class="mt-2 p-2 flex flex-col">
+        <label for="">Email : </label>
+        <input type="email" [(ngModel)]="emp.email" class="border w-70 rounded bg-white mt-2">
+    </div>
+    <div class="mt-2 p-2 flex flex-col">
+        <label for="">Role : </label>
+        <input type="text" [(ngModel)]="emp.role" class="border w-70 rounded bg-white mt-2">
+    </div>
+    <div class="mt-2 p-2 flex flex-col">
+        <label for="">Experience : </label>
+        <input type="text" [(ngModel)]="emp.experience" class="border w-70 rounded bg-white mt-2">
+    </div>
+</section>
+<section class="border w-80 h-full mr-10 ml-10 mt-20 p-5 shadow-2xl">
+    <div>
+        <h1 class="text-2xl text-blue-900 font-black font-serif italic text-center ">User Data</h1><hr class="pb-2">
+        <p><b>Name : </b>{{emp.name}}</p>
+        <p><b>Email :</b> {{emp.email}}</p>
+        <p><b>Role :</b> {{emp.role}}</p>
+        <p><b>Experience : </b>{{emp.experience}}</p>
+    </div>
+</section>
+</section>

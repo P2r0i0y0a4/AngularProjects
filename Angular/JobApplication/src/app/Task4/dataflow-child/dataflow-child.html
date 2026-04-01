@@ -1,0 +1,22 @@
+<!-- <p>dataflow-child works!</p> -->
+<section class="h-20 w-full bg-blue-300 text-white p-3">
+  <h1 class="text-2xl">{{ msg }}</h1>
+</section>
+<section>
+  <h1 class="text-4xl text-red-600">marks list(Array Example)</h1>
+
+  @for (mark of mark; track $index) {
+    <li class="text-2xl">{{ mark }}</li>
+  }
+
+  <section class="border w-90 p-4 mt-5 mb-5">
+    <h2 class="text-xl font-bold text-red-600">Product Details(Object Example)</h2>
+
+    <p><b>Product ID:</b> {{ item.productId }}</p>
+    <p><b>Email:</b> {{ item.email }}</p>
+    <p><b>Product Name:</b> {{ item.productName }}</p>
+  </section><hr><hr>
+
+  <h1 class="text-xl font-black text-red-600">EventEmitter(@Output)</h1>
+  <button (click)="handleClick()">Click me</button>
+</section>

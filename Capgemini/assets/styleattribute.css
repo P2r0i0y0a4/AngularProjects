@@ -1,0 +1,50 @@
+.ab{
+    background-color: blueviolet;
+}
+
+p{
+    background-color: burlywood;
+}
+
+
+#a{
+    background-color: coral;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 300;
+    height: 70px;
+    
+}
+#aa{
+    display: flex;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 300;
+
+}
+ #a1{
+    background-color: blanchedalmond;
+    width: 40%;
+    height: 70px;
+ }
+
+ #a2{
+    background-color:navy;
+    border-radius: 100%;
+    width:20%;
+    
+
+ }
+
+ #a3{
+    background-color:ghostwhite;
+    width:40%;
+ }
+
+ #aaa{
+    background-color: darkgreen;
+    text-transform: uppercase;
+    font-weight: 300;
+    text-align: center;
+    height: 70px;
+ }

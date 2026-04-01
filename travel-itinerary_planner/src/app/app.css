@@ -1,0 +1,9 @@
+/* app.css */
+/* Tailwind handles all styling in app.html template */
+/* Only global overrides go here */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+* {
+  box-sizing: border-box;
+}

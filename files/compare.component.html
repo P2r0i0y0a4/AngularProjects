@@ -1,0 +1,83 @@
+<!-- compare.component.html -->
+
+<div class="max-w-[960px] mx-auto px-6 py-8">
+
+  <h2 class="mb-1.5" style="font-family:'Cormorant Garamond',serif;font-size:2rem">⚖️ Compare Trips</h2>
+  <p class="text-[#8a7f74] text-sm mb-6">Side-by-side comparison to help you prioritise</p>
+
+  <!-- Selectors -->
+  <div class="flex gap-4 items-center mb-8 flex-wrap">
+    <div class="flex-1 min-w-[180px] flex flex-col gap-[5px]">
+      <label class="text-xs font-semibold text-[#8a7f74] uppercase tracking-[.05em]">Trip A</label>
+      <select (change)="tripAId.set(getVal($event))"
+        class="px-3.5 py-[11px] border-[1.5px] border-[#ddd3c2] rounded-lg text-sm bg-white outline-none font-[DM_Sans,sans-serif] focus:border-[#1a6b9e]">
+        @for (t of svc.trips(); track t.id) {
+          <option [value]="t.id">{{ t.title }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="font-bold text-[#8a7f74] px-2 pt-5" style="font-family:'Cormorant Garamond',serif;font-size:1.5rem">VS</div>
+
+    <div class="flex-1 min-w-[180px] flex flex-col gap-[5px]">
+      <label class="text-xs font-semibold text-[#8a7f74] uppercase tracking-[.05em]">Trip B</label>
+      <select (change)="tripBId.set(getVal($event))"
+        class="px-3.5 py-[11px] border-[1.5px] border-[#ddd3c2] rounded-lg text-sm bg-white outline-none font-[DM_Sans,sans-serif] focus:border-[#1a6b9e]">
+        @for (t of svc.trips(); track t.id; let i = $index) {
+          <option [value]="t.id" [selected]="i === 1">{{ t.title }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <!-- Comparison table -->
+  @if (tripA() && tripB() && tripA()!.id !== tripB()!.id) {
+    <div class="bg-white rounded-[16px] overflow-hidden shadow-[0_2px_16px_rgba(22,18,14,.09)]">
+
+      <!-- Header -->
+      <div class="grid bg-[#16120e] text-[#f7f2ea] text-[13px] font-semibold"
+        style="grid-template-columns:180px 1fr 1fr">
+        <div class="px-4 py-3.5 flex items-center gap-2.5">Metric</div>
+        <div class="px-4 py-3.5 flex items-center gap-2.5">
+          <img class="w-8 h-8 rounded-lg object-cover flex-shrink-0" [src]="tripA()!.coverImage" alt=""/>
+          {{ tripA()!.title }}
+        </div>
+        <div class="px-4 py-3.5 flex items-center gap-2.5">
+          <img class="w-8 h-8 rounded-lg object-cover flex-shrink-0" [src]="tripB()!.coverImage" alt=""/>
+          {{ tripB()!.title }}
+        </div>
+      </div>
+
+      <!-- Rows -->
+      @for (row of compareRows(); track row.label) {
+        <div class="grid border-b border-[#ede6d8] last:border-b-0"
+          style="grid-template-columns:180px 1fr 1fr">
+          <div class="px-4 py-3.5 text-[13px] text-[#8a7f74] bg-[#f7f2ea] flex items-center gap-2">
+            {{ row.icon }} {{ row.label }}
+          </div>
+          <div class="px-4 py-3.5 text-[13.5px] flex items-center gap-1.5"
+            [class]="{
+              'text-[#2d7a50] font-bold bg-[#e5f4ec]': row.winA,
+              'text-[#8a7f74]': !row.winA && (row.winA || row.winB)
+            }">
+            {{ row.valA }} @if (row.winA) { <span>🏆</span> }
+          </div>
+          <div class="px-4 py-3.5 text-[13.5px] flex items-center gap-1.5"
+            [class]="{
+              'text-[#2d7a50] font-bold bg-[#e5f4ec]': row.winB,
+              'text-[#8a7f74]': !row.winB && (row.winA || row.winB)
+            }">
+            {{ row.valB }} @if (row.winB) { <span>🏆</span> }
+          </div>
+        </div>
+      }
+    </div>
+
+  } @else {
+    <div class="text-center py-16 text-[#8a7f74] bg-white rounded-[16px] shadow-[0_2px_16px_rgba(22,18,14,.09)]">
+      <div class="text-[2.5rem] mb-4">⚖️</div>
+      <p>Select two different trips to compare.</p>
+    </div>
+  }
+
+</div>

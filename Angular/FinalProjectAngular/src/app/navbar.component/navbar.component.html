@@ -1,0 +1,77 @@
+<!-- <p>navbar.component works!</p> -->
+<style>
+  nav { font-family: 'DM Sans', sans-serif; }
+  .logo-font { font-family: 'Cormorant Garamond', serif; }
+  .nav-link { transition: all 0.2s; }
+  .dropdown { animation: fadeDown 0.2s ease; }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+  .pulse-dot { animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+</style>
+
+@if (isAuth()) {
+<nav class="bg-stone-950 h-16 flex items-center justify-between px-6 sticky top-0 z-50 border-b border-white/5 shadow-2xl">
+  <!-- Logo -->
+  <a routerLink="/dashboard" class="logo-font text-2xl text-amber-50 font-bold flex items-center gap-2 cursor-pointer hover:text-orange-400 transition-colors">
+    <span class="w-2.5 h-2.5 rounded-full bg-orange-500 pulse-dot inline-block"></span>
+    WanderPlan
+  </a>
+
+  <!-- Nav Links -->
+  <div class="hidden md:flex items-center gap-1">
+    @for (link of navLinks; track link.path) {
+      <a [routerLink]="link.path" routerLinkActive="bg-white/15 text-amber-50"
+         class="nav-link px-4 py-2 rounded-full text-sm font-medium text-stone-400 hover:text-amber-50 hover:bg-white/10 flex items-center gap-1.5">
+        <span>{{ link.icon }}</span> {{ link.label }}
+      </a>
+    }
+  </div>
+
+  <!-- Right -->
+  <div class="flex items-center gap-3">
+    <!-- Weather pill -->
+    <div class="hidden sm:flex items-center gap-2 bg-white/10 text-amber-50/80 text-xs px-3 py-1.5 rounded-full border border-white/10">
+      🌤 28°C Chennai
+    </div>
+
+    <!-- New Trip -->
+    <a routerLink="/planner" class="bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold px-4 py-2 rounded-full transition-all hover:-translate-y-0.5 hover:shadow-lg hidden sm:block">
+      + New Trip
+    </a>
+
+    <!-- User Menu -->
+    <div class="relative">
+      <button (click)="toggleMenu()" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 rounded-full px-3 py-1.5 transition-all">
+        <div class="w-7 h-7 rounded-full bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center text-white text-xs font-bold">
+          {{ userInitial() }}
+        </div>
+        <span class="text-amber-50/80 text-xs hidden sm:block">{{ userName() }}</span>
+        <span class="text-amber-50/50 text-xs">▾</span>
+      </button>
+
+      @if (menuOpen) {
+        <div class="dropdown absolute right-0 top-12 bg-stone-900 border border-white/10 rounded-2xl shadow-2xl w-52 overflow-hidden z-50">
+          <div class="px-4 py-3 border-b border-white/10">
+            <div class="text-amber-50 text-sm font-semibold">{{ userName() }}</div>
+            <div class="text-stone-400 text-xs truncate">{{ userEmail() }}</div>
+          </div>
+          <a routerLink="/dashboard" (click)="menuOpen=false" class="flex items-center gap-2 px-4 py-2.5 text-stone-300 hover:bg-white/10 hover:text-amber-50 text-sm transition-colors">
+            🗺️ My Trips
+          </a>
+          <a routerLink="/planner" (click)="menuOpen=false" class="flex items-center gap-2 px-4 py-2.5 text-stone-300 hover:bg-white/10 hover:text-amber-50 text-sm transition-colors">
+            ✈️ Plan Trip
+          </a>
+          <a routerLink="/compare" (click)="menuOpen=false" class="flex items-center gap-2 px-4 py-2.5 text-stone-300 hover:bg-white/10 hover:text-amber-50 text-sm transition-colors">
+            ⚖️ Compare
+          </a>
+          <div class="border-t border-white/10 mt-1">
+            <button (click)="logout()" class="w-full flex items-center gap-2 px-4 py-2.5 text-red-400 hover:bg-red-500/10 text-sm transition-colors">
+              🚪 Sign Out
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</nav>
+}
